@@ -8,5 +8,9 @@ namespace EasyPlay
 {
     class Warteliste : Bibliothek
     {
+        public Warteliste(List<Lied> lieder) : base(lieder)
+        {
+            
+        }
     }
 }

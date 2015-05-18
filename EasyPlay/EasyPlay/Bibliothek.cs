@@ -19,6 +19,12 @@ namespace EasyPlay
             Spielt = false;
         }
 
+        public Bibliothek(List<Lied> lieder)
+        {
+            Lieder = lieder;
+            Spielt = false;
+        }
+
         public void addLied(string pfad)
         {
             Lied lied = new Lied(pfad);
