@@ -8,5 +8,6 @@ namespace EasyPlay
 {
     class Playlist : Bibliothek
     {
+
     }
 }
