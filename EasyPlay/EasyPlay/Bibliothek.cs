@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace EasyPlay
 {
@@ -11,24 +12,39 @@ namespace EasyPlay
         private List<Lied> Lieder;
         private bool Spielt;
 
-        public Bibliothek(List<Lied> lieder, bool spielt)
+        public Bibliothek(string pfad)
         {
-            Lieder = lieder;
-            Spielt = spielt;
+            Lieder = new List<Lied>();
+            addOrdner(pfad);
+            Spielt = false;
         }
 
         public void addLied(string pfad)
         {
-            Lied Lied = null;
-
-
-
-            Lieder.Add(Lied);
+            Lied lied = new Lied(pfad);
+            Lieder.Add(lied);
         }
 
         public void addOrdner(string pfad)
         {
+            DirectoryInfo parentDirectory = new DirectoryInfo(pfad);
+            subDirectories(parentDirectory);
+        }
 
+        private void subDirectories(DirectoryInfo directory)
+        {
+            foreach (DirectoryInfo f in directory.GetDirectories())
+            {
+                subDirectories(f);
+            }
+
+            foreach (FileInfo f in directory.GetFiles())
+            {
+                if (f.Extension.Equals("mp3"))
+                {
+                    addLied(directory.FullName + '/' + f.FullName);
+                }
+            }
         }
 
         public List<Lied> getAlllLieder()
@@ -36,9 +52,9 @@ namespace EasyPlay
             return Lieder;
         }
 
-        public void liedLoeschen(string pfad)
+        public void liedLoeschen(Lied lied)
         {
-
+            Lieder.Remove(lied);
         }
 
         public Lied getSpielendesLied()
