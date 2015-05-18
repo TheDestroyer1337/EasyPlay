@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Media;
+using System.Windows.Media;
 
 namespace EasyPlay
 {
@@ -11,7 +13,7 @@ namespace EasyPlay
     {
         //Klassenvariabeln
         private string Pfad;
-        private float Laenge;
+        private string Laenge;
         private bool Spielt;
         private string Titel;
         private string Interpret;
@@ -47,6 +49,14 @@ namespace EasyPlay
                 Titel = ConvertByteToString(bytes, 3, 32);
                 Interpret = ConvertByteToString(bytes, 33, 62);
                 Album = ConvertByteToString(bytes, 63, 92);
+
+                Spielt = false;
+                Wiederholen = false;
+                Wartend = false;
+                
+                MediaPlayer player = new MediaPlayer();
+                player.Open(new Uri(Pfad));
+                Laenge = player.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
             }
         }
         //Methode um Bytes in Strings zu konvertieren
@@ -101,7 +111,7 @@ namespace EasyPlay
             return Pfad;
         }
 
-        public float getLaenge()
+        public string getLaenge()
         {
             return Laenge;
         }
