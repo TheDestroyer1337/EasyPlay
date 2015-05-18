@@ -23,6 +23,61 @@ namespace EasyPlay
         public MainWindow()
         {
             InitializeComponent();
+
+            TitelGrid.Visibility = Visibility.Visible;
+            PlaylistGrid.Visibility = Visibility.Hidden;
+            InterpretenGrid.Visibility = Visibility.Hidden;
+            AlbenGrid.Visibility = Visibility.Hidden;
+        }
+
+        private void TitelButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Titel button is clicked.");
+            TitelGrid.Visibility = Visibility.Visible;
+            PlaylistGrid.Visibility = Visibility.Hidden;
+            AlbenGrid.Visibility = Visibility.Hidden;
+            InterpretenGrid.Visibility = Visibility.Hidden;
+        }
+
+        private void PlaylistsButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Playlists button is clicked.");
+            TitelGrid.Visibility = Visibility.Hidden;
+            PlaylistGrid.Visibility = Visibility.Visible;
+            AlbenGrid.Visibility = Visibility.Hidden;
+            InterpretenGrid.Visibility = Visibility.Hidden;
+        }
+
+        private void AlbenButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Alben button is clicked.");
+            TitelGrid.Visibility = Visibility.Hidden;
+            PlaylistGrid.Visibility = Visibility.Hidden;
+            AlbenGrid.Visibility = Visibility.Visible;
+            InterpretenGrid.Visibility = Visibility.Hidden;
+        }
+
+        private void InterpretenButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Interpreten button is clicked.");
+            TitelGrid.Visibility = Visibility.Hidden;
+            PlaylistGrid.Visibility = Visibility.Hidden;
+            AlbenGrid.Visibility = Visibility.Hidden;
+            InterpretenGrid.Visibility = Visibility.Visible;
+        }
+
+        private void WartelisteButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Warteliste button is clicked.");
+            TitelGrid.Visibility = Visibility.Visible;
+            PlaylistGrid.Visibility = Visibility.Hidden;
+            AlbenGrid.Visibility = Visibility.Hidden;
+            InterpretenGrid.Visibility = Visibility.Hidden;
+        }
+
+        private void Beenden_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

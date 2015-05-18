@@ -1,8 +1,65 @@
-﻿<Window x:Class="EasyPlay.MainWindow"
+﻿<Window x:Name="FrmMain" x:Class="EasyPlay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="EasyPlay" Height="350" Width="525">
     <Grid>
-        
+        <Menu x:Name="Menu" Margin="0,0,0,0" Height="20" VerticalAlignment="Top">
+            <MenuItem x:Name="MenuDatei" Header="_Datei" >
+                <MenuItem x:Name="MenuAddLieder" Header="_Lieder hinzufügen" />
+                <MenuItem x:Name="MenuAddOrdner" Header="_Ordner hinzufügen" />
+                <MenuItem x:Name="MenuBeenden" Header="_Beenden" Click="Beenden_Click" />
+            </MenuItem>
+            <MenuItem x:Name="MenuOptionen" Header="_Optionen" >
+                <MenuItem x:Name="MenuHilfe" Header="_Hilfe" />
+                <MenuItem x:Name="MenuWartelisteLeeren" Header="_Warteliste leeren" />
+                <MenuItem x:Name="MenuBestenlisteGenereieren" Header="_Bestenliste generieren" />
+            </MenuItem>
+        </Menu>
+        <ToolBar Margin="0,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Button Content="Titel" Click="TitelButton_Clicked"></Button>
+            <Button Content="Playlists" Click="PlaylistsButton_Clicked"></Button>
+            <Button Content="Alben" Click="AlbenButton_Clicked"></Button>
+            <Button Content="Interpreten" Click="InterpretenButton_Clicked"></Button>
+            <Button Content="Warteliste" Click="WartelisteButton_Clicked"></Button>
+        </ToolBar>
+        <Grid x:Name="TitelGrid" HorizontalAlignment="Left" Margin="0,38,0,0" VerticalAlignment="Top" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Titel"></Label>
+            <Label Grid.Row="0" Grid.Column="1" Content="Interpret"></Label>
+            <Label Grid.Row="0" Grid.Column="2" Content="Album"></Label>
+            <Label Grid.Row="0" Grid.Column="3" Content="Dauer"></Label>
+        </Grid>
+        <Grid x:Name="PlaylistGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,38,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Playlist"></Label>
+            <Label Grid.Row="0" Grid.Column="1" Content="Anz. Lieder"></Label>
+        </Grid>
+        <Grid x:Name="AlbenGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,38,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Album"></Label>
+            <Label Grid.Row="0" Grid.Column="1" Content="Anz. Lieder"></Label>
+            <Label Grid.Row="0" Grid.Column="2" Content="Interpret"></Label>
+        </Grid>
+        <Grid x:Name="InterpretenGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,38,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Interpret"></Label>
+            <Label Grid.Row="0" Grid.Column="1" Content="Anz. Lieder"></Label>
+        </Grid>
+        <Slider Margin="0,291,92,10"/>
     </Grid>
 </Window>
