@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace EasyPlay
 {
@@ -21,7 +22,15 @@ namespace EasyPlay
     /// </summary>
     public partial class MainWindow : Window
     {
+        //Klassenvariabeln
         private MediaPlayer Player;
+        private List<Playlist> Playlists;
+        private Bibliothek Biblio;
+        private Lied AktuelleWiedergabe;
+        private Warteliste Wartelist;
+        private DispatcherTimer Timer;
+        private TimeSpan Pause;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -32,6 +41,7 @@ namespace EasyPlay
             AlbenGrid.Visibility = Visibility.Hidden;
             
             Player = new MediaPlayer();
+            
         }
 
         private void TitelButton_Clicked(object sender, RoutedEventArgs e)

@@ -12,5 +12,20 @@ namespace EasyPlay
         {
             
         }
+
+        //Methoden
+        public void Leeren()
+        {
+            foreach (Lied l in Lieder)
+            {
+                liedLoeschen(l);
+            }
+        }
+
+        public void Gespielt(Lied lied)
+        {
+            if(lied != null)
+                liedLoeschen(lied);
+        }
     }
 }

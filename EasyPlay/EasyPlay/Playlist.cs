@@ -18,5 +18,14 @@ namespace EasyPlay
             Name = name;
             Wiederholen = false;
         }
+
+        //Methoden
+        public void Loeschen()
+        {
+            foreach (Lied l in Lieder)
+            {
+                liedLoeschen(l);
+            }
+        }
     }
 }

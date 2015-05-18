@@ -9,8 +9,8 @@ namespace EasyPlay
 {
     class Bibliothek
     {
-        private List<Lied> Lieder;
-        private bool Spielt;
+        protected List<Lied> Lieder;
+        protected bool Spielt;
 
         public Bibliothek(string pfad)
         {
