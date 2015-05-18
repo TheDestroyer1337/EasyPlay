@@ -32,6 +32,7 @@ namespace EasyPlay
         private Warteliste Wartelist;
         private DispatcherTimer Timer;
         private TimeSpan Pause;
+        private Playlist Playlist;
 
         private enum MyType
         {
@@ -41,11 +42,6 @@ namespace EasyPlay
         public MainWindow()
         {
             InitializeComponent();
-
-            TitelGrid.Visibility = Visibility.Visible;
-            PlaylistGrid.Visibility = Visibility.Hidden;
-            InterpretenGrid.Visibility = Visibility.Hidden;
-            AlbenGrid.Visibility = Visibility.Hidden;
 
             string saveFile = AppDomain.CurrentDomain.BaseDirectory + "easyplay.txt";
             if (!File.Exists(saveFile))
@@ -59,53 +55,65 @@ namespace EasyPlay
                 this.displayData(MyType.Titel);
             }
 
-        Player = new MediaPlayer();
+            Player = new MediaPlayer();
+            BtnPlay.Visibility = Visibility.Visible;
+            BtnPause.Visibility = Visibility.Hidden;
+
+            ListViewTitel.Visibility = Visibility.Visible;
+            ListViewPlaylists.Visibility = Visibility.Hidden;
+            ListViewInterpreten.Visibility = Visibility.Hidden;
+            ListViewAlben.Visibility = Visibility.Hidden; 
+
             
+            Player = new MediaPlayer();   
         }
 
         private void TitelButton_Clicked(object sender, RoutedEventArgs e)
         {
             System.Windows.MessageBox.Show("Titel button is clicked.");
-            TitelGrid.Visibility = Visibility.Visible;
-            PlaylistGrid.Visibility = Visibility.Hidden;
-            AlbenGrid.Visibility = Visibility.Hidden;
-            InterpretenGrid.Visibility = Visibility.Hidden;
+            ListViewTitel.Visibility = Visibility.Visible;
+            ListViewPlaylists.Visibility = Visibility.Hidden;
+            ListViewAlben.Visibility = Visibility.Hidden;
+            ListViewInterpreten.Visibility = Visibility.Hidden;
+
         }
 
         private void PlaylistsButton_Clicked(object sender, RoutedEventArgs e)
         {
+
             System.Windows.MessageBox.Show("Playlists button is clicked.");
-            TitelGrid.Visibility = Visibility.Hidden;
-            PlaylistGrid.Visibility = Visibility.Visible;
-            AlbenGrid.Visibility = Visibility.Hidden;
-            InterpretenGrid.Visibility = Visibility.Hidden;
+            ListViewTitel.Visibility = Visibility.Hidden;
+            ListViewPlaylists.Visibility = Visibility.Visible;
+            ListViewAlben.Visibility = Visibility.Hidden;
+            ListViewInterpreten.Visibility = Visibility.Hidden;
         }
 
         private void AlbenButton_Clicked(object sender, RoutedEventArgs e)
         {
+
             System.Windows.MessageBox.Show("Alben button is clicked.");
-            TitelGrid.Visibility = Visibility.Hidden;
-            PlaylistGrid.Visibility = Visibility.Hidden;
-            AlbenGrid.Visibility = Visibility.Visible;
-            InterpretenGrid.Visibility = Visibility.Hidden;
+            ListViewTitel.Visibility = Visibility.Hidden;
+            ListViewPlaylists.Visibility = Visibility.Hidden;
+            ListViewAlben.Visibility = Visibility.Visible;
+            ListViewInterpreten.Visibility = Visibility.Hidden;
         }
 
         private void InterpretenButton_Clicked(object sender, RoutedEventArgs e)
         {
             System.Windows.MessageBox.Show("Interpreten button is clicked.");
-            TitelGrid.Visibility = Visibility.Hidden;
-            PlaylistGrid.Visibility = Visibility.Hidden;
-            AlbenGrid.Visibility = Visibility.Hidden;
-            InterpretenGrid.Visibility = Visibility.Visible;
+            ListViewTitel.Visibility = Visibility.Hidden;
+            ListViewPlaylists.Visibility = Visibility.Hidden;
+            ListViewAlben.Visibility = Visibility.Hidden;
+            ListViewInterpreten.Visibility = Visibility.Visible;
         }
 
         private void WartelisteButton_Clicked(object sender, RoutedEventArgs e)
         {
             System.Windows.MessageBox.Show("Warteliste button is clicked.");
-            TitelGrid.Visibility = Visibility.Visible;
-            PlaylistGrid.Visibility = Visibility.Hidden;
-            AlbenGrid.Visibility = Visibility.Hidden;
-            InterpretenGrid.Visibility = Visibility.Hidden;
+            ListViewTitel.Visibility = Visibility.Visible;
+            ListViewPlaylists.Visibility = Visibility.Hidden;
+            ListViewAlben.Visibility = Visibility.Hidden;
+            ListViewInterpreten.Visibility = Visibility.Hidden;
         }
 
         private void Beenden_Click(object sender, RoutedEventArgs e)
@@ -113,9 +121,36 @@ namespace EasyPlay
             this.Close();
         }
 
-        private void BtnPlayPause_Click(object sender, RoutedEventArgs e)
+        private void BtnPause_Click(object sender, RoutedEventArgs e)
         {
-       
+            Player.Pause();
+            BtnPause.Visibility = Visibility.Hidden;
+            BtnPlay.Visibility = Visibility.Visible;
+        }
+
+        private void BtnPlay_Click(object sender, RoutedEventArgs e)
+        {
+            Player.Play();
+            BtnPlay.Visibility = Visibility.Hidden;
+            BtnPause.Visibility = Visibility.Visible;
+        }
+
+        private void BtnNeuePlaylist_Click(object sender, RoutedEventArgs e)
+        {
+            InputBox.Visibility = Visibility.Visible;
+        }
+
+        private void WeiterButton_Click(object sender, RoutedEventArgs e)
+        {
+            Playlist = new Playlist(null, InputTextBox.Text);
+            InputBox.Visibility = Visibility.Collapsed;
+            ListViewTitel.Visibility = Visibility.Visible;
+            //Playlist.addLied();
+        }
+
+        private void AbbrechenButton_Click(object sender, RoutedEventArgs e)
+        {
+            InputBox.Visibility = Visibility.Collapsed;
         }
 
         private void displayData(MyType type)

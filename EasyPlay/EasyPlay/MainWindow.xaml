@@ -3,6 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="EasyPlay" Height="350" Width="525">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="291*"/>
+            <RowDefinition/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="24*"/>
+        </Grid.RowDefinitions>
         <Menu x:Name="Menu" Margin="0,0,0,0" Height="20" VerticalAlignment="Top">
             <MenuItem x:Name="MenuDatei" Header="_Datei" >
                 <MenuItem x:Name="MenuAddLieder" Header="_Lieder hinzufügen" />
@@ -22,49 +28,73 @@
             <Button Content="Interpreten" Click="InterpretenButton_Clicked"></Button>
             <Button Content="Warteliste" Click="WartelisteButton_Clicked"></Button>
         </ToolBar>
-        <Grid x:Name="TitelGrid" HorizontalAlignment="Left" Margin="0,38,0,0" VerticalAlignment="Top" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Content="Titel"></Label>
-            <Label Grid.Row="0" Grid.Column="1" Content="Interpret"></Label>
-            <Label Grid.Row="0" Grid.Column="2" Content="Album"></Label>
-            <Label Grid.Row="0" Grid.Column="3" Content="Dauer"></Label>
-        </Grid>
-        <Grid x:Name="PlaylistGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,38,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Content="Playlist"></Label>
-            <Label Grid.Row="0" Grid.Column="1" Content="Anz. Lieder"></Label>
-        </Grid>
-        <Grid x:Name="AlbenGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,38,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Content="Album"></Label>
-            <Label Grid.Row="0" Grid.Column="1" Content="Anz. Lieder"></Label>
-            <Label Grid.Row="0" Grid.Column="2" Content="Interpret"></Label>
-        </Grid>
-        <Grid x:Name="InterpretenGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,38,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Content="Interpret"></Label>
-            <Label Grid.Row="0" Grid.Column="1" Content="Anz. Lieder"></Label>
-        </Grid>
-        <Slider Margin="52,281,40,10"/>
-        <Button x:Name="BtnPlayPause" HorizontalAlignment="Left" VerticalAlignment="Top" Width="27" Margin="10,281,0,0" Height="24" BorderThickness="0">
+        <ListView Name="ListViewTitel" Margin="0,47,0,15">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Titel" Width="Auto"></GridViewColumn>
+                    <GridViewColumn Header="Interpret" Width="Auto"></GridViewColumn>
+                    <GridViewColumn Header="Album" Width="Auto"></GridViewColumn>
+                    <GridViewColumn Header="Dauer" Width="Auto"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView Name="ListViewPlaylists" Margin="0,47,0,15">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" Width="Auto"></GridViewColumn>
+                    <GridViewColumn Header="Anzahl Lieder" Width="Auto"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView Name="ListViewAlben" Margin="0,47,0,15">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Album" Width="Auto"></GridViewColumn>
+                    <GridViewColumn Header="Interpret" Width="Auto"></GridViewColumn>
+                    <GridViewColumn Header="Anzahl Lieder" Width="Auto"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView Name="ListViewInterpreten" Margin="0,47,0,15">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Interpret" Width="Auto"></GridViewColumn>
+                    <GridViewColumn Header="Anzahl Lieder" Width="Auto"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Slider x:Name="LiedSlider" Margin="52,0,40,10" Grid.RowSpan="4" Height="28" VerticalAlignment="Bottom"/>
+        <Button x:Name="BtnPlay" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="27" Margin="10,0,0,14" Height="24" BorderThickness="0" Click="BtnPlay_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Grid.RowSpan="4" >
             <Button.Background>
                 <ImageBrush Stretch="Uniform" ImageSource="Resources/play.png"/>
             </Button.Background>
         </Button>
+        <Button x:Name="BtnPause" VerticalAlignment="Bottom" Margin="10,0,0,14" Height="24" BorderThickness="0" Click="BtnPause_Click" Foreground="{x:Null}" BorderBrush="{x:Null}" Grid.RowSpan="4" HorizontalAlignment="Left" Width="27" >
+
+            <Button.Background>
+                <ImageBrush Stretch="Uniform" ImageSource="Resources/pause.png" />
+            </Button.Background>
+        </Button>
+        <Slider x:Name="VolumeSlider" Margin="0,0,0,20" Grid.RowSpan="4" Height="18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="35"/>
+        <Button x:Name="BtnNeuePlaylist" Content="Neue Playlist" HorizontalAlignment="Left" VerticalAlignment="Top" Width="87" RenderTransformOrigin="3.053,1.2" Margin="266,23,0,0" Click="BtnNeuePlaylist_Click" Height="24"/>
+        <Grid x:Name="InputBox" Visibility="Collapsed">
+            <Grid Background="Black" Opacity="0.5"/>
+            <Border
+            MinWidth="250"
+            Background="GreenYellow" 
+            BorderBrush="Black" 
+            BorderThickness="1" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Margin="5" Text="Playlist Name:" FontWeight="Bold" FontFamily="Cambria" />
+                    <TextBox MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="InputTextBox"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="WeiterButton" Margin="5" Content="Weiter" Background="{x:Null}" Click="WeiterButton_Click"/>
+                        <Button x:Name="AbbrechenButton" Margin="5" Content="Abbrechen" Background="{x:Null}" Click="AbbrechenButton_Click" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Window>
