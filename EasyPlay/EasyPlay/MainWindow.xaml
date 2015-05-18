@@ -60,6 +60,11 @@
             <Label Grid.Row="0" Grid.Column="0" Content="Interpret"></Label>
             <Label Grid.Row="0" Grid.Column="1" Content="Anz. Lieder"></Label>
         </Grid>
-        <Slider Margin="0,291,92,10"/>
+        <Slider Margin="52,281,40,10"/>
+        <Button x:Name="BtnPlayPause" HorizontalAlignment="Left" VerticalAlignment="Top" Width="27" Margin="10,281,0,0" Height="24" BorderThickness="0">
+            <Button.Background>
+                <ImageBrush Stretch="Uniform" ImageSource="Resources/play.png"/>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>

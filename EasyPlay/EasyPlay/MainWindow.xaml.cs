@@ -93,5 +93,10 @@ namespace EasyPlay
         {
             this.Close();
         }
+
+        private void BtnPlayPause_Click(object sender, RoutedEventArgs e)
+        {
+       
+        }
     }
 }
