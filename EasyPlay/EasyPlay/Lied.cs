@@ -39,7 +39,9 @@ namespace EasyPlay
                 Album = f.Text;
                 f = v2Tag.Frames[FrameFactory.TitleFrameId] as TextFrame;
                 Titel = f.Text;
-
+                f = v2Tag.Frames[FrameFactory.BandFrameId] as TextFrame;
+                if(f != null)
+                    Interpret = f.Text;
                 Spielt = false;
                 Wiederholen = false;
                 Wartend = false;
