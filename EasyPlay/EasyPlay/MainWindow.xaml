@@ -110,5 +110,6 @@
                 <ImageBrush Stretch="Uniform" ImageSource="Resources/laut.png"/>
             </Button.Background>
         </Button>
+        <Button x:Name="BtnWiederholen" Content="Wiederholen" HorizontalAlignment="Left" VerticalAlignment="Top" Width="91" RenderTransformOrigin="3.053,1.2" Margin="420,21,0,0" Height="24"/>
     </Grid>
 </Window>

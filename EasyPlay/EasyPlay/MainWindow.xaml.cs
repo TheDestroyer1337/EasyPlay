@@ -372,7 +372,6 @@ namespace EasyPlay
            
         }
 
-
         private void save()
         {
             string saveFile = AppDomain.CurrentDomain.BaseDirectory + "easyplay.bin";
@@ -517,6 +516,18 @@ namespace EasyPlay
             Player.Volume = VolumeSlider.Value / 100;            
             BtnLaut.Visibility = Visibility.Hidden;
             BtnStumm.Visibility = Visibility.Visible;
+        }
+
+        private void BtnWiederholen_Click(object sender, RoutedEventArgs e)
+        {
+            displayTitel item = new displayTitel();
+            item = (displayTitel)ListViewTitel.SelectedItem;
+            play(item.Pfad);
+            foreach (Lied l in Biblio.getAlllLieder())
+            {
+                if (l.getPfad() == item.Pfad)
+                    l.setWiederholen(true);
+            }
         }
     }
 }
