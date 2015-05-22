@@ -37,12 +37,15 @@ namespace EasyPlay
                 ID3File tag = new ID3File(Pfad);
                 ID3v2Tag v2Tag = tag.ID3v2Tag;
                 TextFrame f = v2Tag.Frames[FrameFactory.AlbumFrameId] as TextFrame;
-                Album = f.Text;
+                if (f != null)
+                    Album = f.Text;
                 f = v2Tag.Frames[FrameFactory.TitleFrameId] as TextFrame;
-                Titel = f.Text;
+                if (f != null)
+                    Titel = f.Text;
                 f = v2Tag.Frames[FrameFactory.BandFrameId] as TextFrame;
                 if(f != null)
                     Interpret = f.Text;
+
                 Spielt = false;
                 Wiederholen = false;
                 Wartend = false;

@@ -11,7 +11,10 @@ namespace EasyPlay
     {
         public Warteliste(List<Lied> lieder) : base(lieder)
         {
-            
+            if (lieder == null)
+                Lieder = new List<Lied>();
+            else
+                Lieder = lieder;
         }
 
         //Methoden
@@ -27,6 +30,11 @@ namespace EasyPlay
         {
             if(lied != null)
                 liedLoeschen(lied);
+        }
+
+        public new void addLied(Lied l)
+        {
+            Lieder.Add(l);
         }
     }
 }

@@ -98,5 +98,7 @@
             </Border>
         </Grid>
         <Button x:Name="BtnPlaylistSpeichern" Content="Speichern" HorizontalAlignment="Left" VerticalAlignment="Top" Width="87" RenderTransformOrigin="3.053,1.2" Margin="266,21,0,0" Click="BtnPlaylistSpeichern_Click" Height="24"/>
+        <Button x:Name="BtnPlaylistLoeschen" Content="Löschen" HorizontalAlignment="Left" VerticalAlignment="Top" Width="87" RenderTransformOrigin="3.053,1.2" Margin="358,21,0,0" Height="24" Click="BtnPlaylistLoeschen_Click"/>
+        <Button x:Name="BtnZuWarteliste" Content="zur Warteliste hinzufügen" HorizontalAlignment="Left" VerticalAlignment="Top" Width="149" RenderTransformOrigin="3.053,1.2" Margin="266,21,0,0" Height="24" Click="BtnZuWarteliste_Click"/>
     </Grid>
 </Window>
