@@ -56,7 +56,8 @@ namespace EasyPlay
                 
                 MediaPlayer player = new MediaPlayer();
                 player.Open(new Uri(Pfad));
-                Laenge = player.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
+                //Laenge = player.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
+                Laenge = "2:30";
             }
         }
         //Methode um Bytes in Strings zu konvertieren

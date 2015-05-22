@@ -32,5 +32,10 @@ namespace EasyPlay
         {
             return Name;
         }
+
+        public new void addLied(Lied l)
+        {
+            Lieder.Add(l);
+        }
     }
 }

@@ -60,6 +60,7 @@ namespace EasyPlay
             BtnPlay.Visibility = Visibility.Visible;
             BtnPause.Visibility = Visibility.Hidden;
             BtnNeuePlaylist.Visibility = Visibility.Hidden;
+            BtnPlaylistSpeichern.Visibility = Visibility.Hidden;
 
             ListViewTitel.Visibility = Visibility.Visible;
             ListViewPlaylists.Visibility = Visibility.Hidden;
@@ -143,6 +144,9 @@ namespace EasyPlay
         {
             Playlist = new Playlist(null, InputTextBox.Text);
             InputBox.Visibility = Visibility.Collapsed;
+            BtnNeuePlaylist.Visibility = Visibility.Hidden;
+            BtnPlaylistSpeichern.Visibility = Visibility.Visible;
+            ListViewPlaylists.Visibility = Visibility.Hidden;
             ListViewTitel.Visibility = Visibility.Visible;
             IsPlaylist = true;
         }
@@ -152,12 +156,20 @@ namespace EasyPlay
             InputBox.Visibility = Visibility.Collapsed;
         }
 
+        private void BtnPlaylistSpeichern_Click(object sender, RoutedEventArgs e)
+        {
+            Playlists.Add(Playlist);
+            ListViewPlaylists.Items.Add(new displayPlaylist { Name = Playlist.getName(), AnzTitel = Playlist.getAlllLieder().Count });
+            BtnPlaylistSpeichern.Visibility = Visibility.Hidden;
+            BtnNeuePlaylist.Visibility = Visibility.Visible;
+        }
+
         private void displayData(MyType type)
         {
             switch (type)
             {
                 case MyType.Titel:
-                    ListViewTitel.Items.Add(new displayTitel { Titel = "test", Album = "test", Interpret = "meins", Dauer = 3, Pfad = "Bullshiet" });
+                    ListViewTitel.Items.Add(new displayTitel { Titel = "test", Album = "test", Interpret = "meins", Dauer = 3, Pfad = "C:\\Temp\\Alarm01.mp3" });
                     break;
                 case MyType.Album:
                     break;
@@ -178,13 +190,11 @@ namespace EasyPlay
                 item = (displayTitel)ListViewTitel.SelectedItem;
                 foreach (Lied l in Biblio.getAlllLieder())
                 {
-                    if (item.Titel == l.getTitel())
+                    if (item.Pfad == l.getPfad())
                     {
-                        Playlist.addLied(l.getPfad());
+                        Playlist.addLied(l);
                     }
                 }
-                Playlists.Add(Playlist);
-                ListViewPlaylists.Items.Add(new displayPlaylist { Name = Playlist.getName(), AnzTitel = 2 });
             }
         }
 

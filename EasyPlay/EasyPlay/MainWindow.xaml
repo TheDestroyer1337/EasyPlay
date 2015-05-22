@@ -35,7 +35,7 @@
                     <GridViewColumn Header="Interpret" DisplayMemberBinding="{Binding Interpret}" Width="Auto"></GridViewColumn>
                     <GridViewColumn Header="Album" DisplayMemberBinding="{Binding Album}" Width="Auto"></GridViewColumn>
                     <GridViewColumn Header="Dauer" DisplayMemberBinding="{Binding Dauer}" Width="Auto"></GridViewColumn>
-                    <GridViewColumn Header="Pfad" DisplayMemberBinding="{Binding Pfad}" Width="0" ></GridViewColumn>
+                    <GridViewColumn Header="Pfad" DisplayMemberBinding="{Binding Pfad}" Width="0"></GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -77,7 +77,7 @@
             </Button.Background>
         </Button>
         <Slider x:Name="VolumeSlider" Margin="0,0,0,20" Grid.RowSpan="4" Height="18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="35"/>
-        <Button x:Name="BtnNeuePlaylist" Content="Neue Playlist" HorizontalAlignment="Left" VerticalAlignment="Top" Width="87" RenderTransformOrigin="3.053,1.2" Margin="266,23,0,0" Click="BtnNeuePlaylist_Click" Height="24"/>
+        <Button x:Name="BtnNeuePlaylist" Content="Neue Playlist" HorizontalAlignment="Left" VerticalAlignment="Top" Width="87" RenderTransformOrigin="3.053,1.2" Margin="266,21,0,0" Click="BtnNeuePlaylist_Click" Height="24"/>
         <Grid x:Name="InputBox" Visibility="Collapsed">
             <Grid Background="Black" Opacity="0.5"/>
             <Border
@@ -97,5 +97,6 @@
                 </StackPanel>
             </Border>
         </Grid>
+        <Button x:Name="BtnPlaylistSpeichern" Content="Speichern" HorizontalAlignment="Left" VerticalAlignment="Top" Width="87" RenderTransformOrigin="3.053,1.2" Margin="266,21,0,0" Click="BtnPlaylistSpeichern_Click" Height="24"/>
     </Grid>
 </Window>
