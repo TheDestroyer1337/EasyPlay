@@ -71,6 +71,7 @@ namespace EasyPlay
 
             Playlists = new List<Playlist>();
             Player = new MediaPlayer();
+            Player.MediaEnded += Player_MediaEnded;
             Timer = new DispatcherTimer();
             Timer.Interval = new TimeSpan(0, 0, 1);
             Timer.Tick += new EventHandler(PlayTime_Tick);
@@ -78,6 +79,14 @@ namespace EasyPlay
             Player = new MediaPlayer();
             this.load();
             this.displayData(MyType.Titel);
+        }
+
+        void Player_MediaEnded(object sender, EventArgs e)
+        {
+            if (Biblio.getSpielend())
+            {
+                foreach(Lied l in Biblio)
+            }
         }
 
         private void PlayTime_Tick(object sender, EventArgs e)
@@ -95,6 +104,12 @@ namespace EasyPlay
             BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
             BtnZuWarteliste.Visibility = Visibility.Visible;
             displayData(MyType.Titel);
+            Wartelist.setSpielend(false);
+            foreach (Playlist p in Playlists)
+            {
+                p.setSpielend(false);
+            }
+            Biblio.setSpielend(true);
         }
 
         private void PlaylistsButton_Clicked(object sender, RoutedEventArgs e)
@@ -119,6 +134,12 @@ namespace EasyPlay
             BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
             BtnZuWarteliste.Visibility = Visibility.Hidden;
             displayData(MyType.Album);
+            Wartelist.setSpielend(false);
+            foreach (Playlist p in Playlists)
+            {
+                p.setSpielend(false);
+            }
+            Biblio.setSpielend(true);
         }
 
         private void InterpretenButton_Clicked(object sender, RoutedEventArgs e)
@@ -131,6 +152,12 @@ namespace EasyPlay
             BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
             BtnZuWarteliste.Visibility = Visibility.Hidden;
             displayData(MyType.Interpret);
+            Wartelist.setSpielend(false);
+            foreach (Playlist p in Playlists)
+            {
+                p.setSpielend(false);
+            }
+            Biblio.setSpielend(true);
         }
 
         private void WartelisteButton_Clicked(object sender, RoutedEventArgs e)
@@ -143,6 +170,12 @@ namespace EasyPlay
             BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
             BtnZuWarteliste.Visibility = Visibility.Hidden;
             displayData(MyType.Warteliste);
+            Wartelist.setSpielend(true);
+            foreach (Playlist p in Playlists)
+            {
+                p.setSpielend(false);
+            }
+            Biblio.setSpielend(false);
         }
 
         private void Beenden_Click(object sender, RoutedEventArgs e)
@@ -153,6 +186,7 @@ namespace EasyPlay
         private void BtnPause_Click(object sender, RoutedEventArgs e)
         {
             Player.Pause();
+            Timer.Stop();
             BtnPause.Visibility = Visibility.Hidden;
             BtnPlay.Visibility = Visibility.Visible;
         }
@@ -295,7 +329,10 @@ namespace EasyPlay
                     foreach (Lied l in p.getAlllLieder())
                     {
                         ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge(), Pfad = l.getPfad() });
-                    }                    
+                    }
+                    Wartelist.setSpielend(false);
+                    p.setSpielend(true);
+                    Biblio.setSpielend(false);
                 }
             }
            
@@ -363,7 +400,24 @@ namespace EasyPlay
         {
             displayTitel item = new displayTitel();
             item = (displayTitel)ListViewTitel.SelectedItem;
-            Player.Open(new Uri(item.Pfad));
+            play(item.Pfad);
+            foreach (Lied l in Biblio.getAlllLieder())
+            {
+                if (l.getPfad() == item.Pfad)
+                    l.setSpielt(true);
+            }
+        }
+
+        private void LiedSlider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            int value = Convert.ToInt16(LiedSlider.Value);
+            TimeSpan time = new TimeSpan(0, 0, value);
+            Player.Position = time;
+        }
+
+        private void play(string pfad)
+        {
+            Player.Open(new Uri(pfad));
             Player.Play();
             while (!Player.NaturalDuration.HasTimeSpan)
             {
@@ -385,15 +439,12 @@ namespace EasyPlay
                 Player.Position = Pause;
                 Pause = new TimeSpan(0);
             }
+            else
+            {
+                LiedSlider.Value = 0;
+            }
             BtnPlay.Visibility = Visibility.Hidden;
             BtnPause.Visibility = Visibility.Visible;
-        }
-
-        private void LiedSlider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            int value = Convert.ToInt16(LiedSlider.Value);
-            TimeSpan time = new TimeSpan(0, 0, value);
-            Player.Position = time;
         }
     }
 }
