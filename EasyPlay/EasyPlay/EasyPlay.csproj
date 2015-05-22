@@ -110,6 +110,8 @@
     <Resource Include="Resources\pause.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\liedwieder.png" />
+    <Resource Include="Resources\playlistwieder.png" />
     <Resource Include="Resources\leise.png" />
     <Resource Include="Resources\stumm.png" />
     <Resource Include="Resources\laut.png" />

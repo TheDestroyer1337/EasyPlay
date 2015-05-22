@@ -1,7 +1,7 @@
 ﻿<Window x:Name="FrmMain" x:Class="EasyPlay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="EasyPlay" Height="350" Width="529" Closing="FrmMain_Closing">
+        Title="EasyPlay" Height="371" Width="529" Closing="FrmMain_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="291*"/>
@@ -100,16 +100,26 @@
         <Button x:Name="BtnPlaylistSpeichern" Content="Speichern" HorizontalAlignment="Left" VerticalAlignment="Top" Width="87" RenderTransformOrigin="3.053,1.2" Margin="266,21,0,0" Click="BtnPlaylistSpeichern_Click" Height="24"/>
         <Button x:Name="BtnPlaylistLoeschen" Content="Löschen" HorizontalAlignment="Left" VerticalAlignment="Top" Width="87" RenderTransformOrigin="3.053,1.2" Margin="358,21,0,0" Height="24" Click="BtnPlaylistLoeschen_Click"/>
         <Button x:Name="BtnZuWarteliste" Content="zur Warteliste hinzufügen" HorizontalAlignment="Left" VerticalAlignment="Top" Width="149" RenderTransformOrigin="3.053,1.2" Margin="266,21,0,0" Height="24" Click="BtnZuWarteliste_Click"/>
-        <Button x:Name="BtnStumm" VerticalAlignment="Bottom" Margin="0,0,4,20" Height="18" BorderThickness="0" BorderBrush="{x:Null}" Foreground="{x:Null}" Grid.RowSpan="4" RenderTransformOrigin="0.421,0.889" HorizontalAlignment="Right" Width="19" Click="BtnStumm_Click" >
+        <Button x:Name="BtnStumm" VerticalAlignment="Bottom" Margin="0,0,4,20" Height="18" BorderThickness="0" BorderBrush="{x:Null}" Foreground="{x:Null}" Grid.RowSpan="4" RenderTransformOrigin="0.421,0.889" HorizontalAlignment="Right" Width="19" Click="BtnStumm_Click" ToolTip="Stumm schalten" >
             <Button.Background>
                 <ImageBrush Stretch="Uniform" ImageSource="Resources/stumm.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="BtnLaut" VerticalAlignment="Bottom" Margin="0,0,4,20" Height="18" BorderThickness="0" BorderBrush="{x:Null}" Foreground="{x:Null}" Grid.RowSpan="4" RenderTransformOrigin="0.421,0.889" HorizontalAlignment="Right" Width="19" Click="BtnLaut_Click" >
+        <Button x:Name="BtnLaut" VerticalAlignment="Bottom" Margin="0,0,4,20" Height="18" BorderThickness="0" BorderBrush="{x:Null}" Foreground="{x:Null}" Grid.RowSpan="4" RenderTransformOrigin="0.421,0.889" HorizontalAlignment="Right" Width="19" Click="BtnLaut_Click" ToolTip="Laut schalten" >
             <Button.Background>
                 <ImageBrush Stretch="Uniform" ImageSource="Resources/laut.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="BtnWiederholen" Content="Wiederholen" HorizontalAlignment="Left" VerticalAlignment="Top" Width="91" RenderTransformOrigin="3.053,1.2" Margin="420,21,0,0" Height="24"/>
+        <Button x:Name="BtnLiedWiederholen" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="32" RenderTransformOrigin="3.053,1.2" Margin="344,2,0,0" Height="21" Grid.Row="3" Click="BtnLiedWiederholen_Click" BorderBrush="{x:Null}" Foreground="{x:Null}">
+            <Button.Background>
+                <ImageBrush Stretch="Uniform" ImageSource="Resources/liedwieder.png"/>
+            </Button.Background>
+        </Button>
+        <Label x:Name="LblLiedName" Content="Lied Name" HorizontalAlignment="Left" Margin="74,0,0,0" Grid.Row="3" VerticalAlignment="Top" Width="253"/>
+        <Button x:Name="BtnPlaylistWiederholen" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="27" RenderTransformOrigin="3.053,1.2" Margin="377,5,0,0" Height="15" Grid.Row="3" BorderBrush="{x:Null}" Foreground="{x:Null}">
+            <Button.Background>
+                <ImageBrush Stretch="Uniform" ImageSource="Resources/playlistwieder.png"/>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>
