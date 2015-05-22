@@ -55,7 +55,7 @@ namespace EasyPlay
                 Biblio = new Bibliothek(ofd.SelectedPath);
                 this.displayData(MyType.Titel);
             }
-
+            this.displayData(MyType.Titel);
             Player = new MediaPlayer();
             BtnPlay.Visibility = Visibility.Visible;
             BtnPause.Visibility = Visibility.Hidden;
@@ -157,6 +157,7 @@ namespace EasyPlay
             switch (type)
             {
                 case MyType.Titel:
+                    ListViewTitel.Items.Add(new displayTitel { Titel = "test", Album = "test", Interpret = "meins", Dauer = 3, Pfad = "Bullshiet" });
                     break;
                 case MyType.Album:
                     break;
@@ -173,8 +174,8 @@ namespace EasyPlay
         {
             if (IsPlaylist)
             {
-                TestClass item = new TestClass();
-                item = (TestClass)ListViewTitel.SelectedItem;
+                displayTitel item = new displayTitel();
+                item = (displayTitel)ListViewTitel.SelectedItem;
                 foreach (Lied l in Biblio.getAlllLieder())
                 {
                     if (item.Titel == l.getTitel())
@@ -183,8 +184,28 @@ namespace EasyPlay
                     }
                 }
                 Playlists.Add(Playlist);
-                ListViewPlaylists.Items.Add(new PlaylistClass { Name = Playlist.Name, AnzTitel = 2 });
+                ListViewPlaylists.Items.Add(new displayPlaylist { Name = Playlist.getName(), AnzTitel = 2 });
             }
+        }
+
+        internal class displayTitel
+        {
+            public string Titel { get; set; }
+            public string Interpret { get; set; }
+            public string Album { get; set; }
+            public int Dauer { get; set; }
+            public string Pfad { get; set; }
+        }
+
+        internal class displayPlaylist
+        {
+            public string Name { get; set; }
+            public int AnzTitel { get; set; }
+        }
+
+        internal class displayAblum
+        {
+
         }
     }
 }
