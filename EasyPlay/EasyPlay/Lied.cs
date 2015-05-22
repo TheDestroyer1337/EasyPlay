@@ -39,12 +39,21 @@ namespace EasyPlay
                 TextFrame f = v2Tag.Frames[FrameFactory.AlbumFrameId] as TextFrame;
                 if (f != null)
                     Album = f.Text;
+                else
+                    Album = "Unknown";
                 f = v2Tag.Frames[FrameFactory.TitleFrameId] as TextFrame;
                 if (f != null)
                     Titel = f.Text;
+                else
+                {
+                    split = pfad.Split('\\');
+                    Titel = split[split.Length - 1];
+                }
                 f = v2Tag.Frames[FrameFactory.BandFrameId] as TextFrame;
                 if(f != null)
                     Interpret = f.Text;
+                else
+                    Interpret = "Unknown";
 
                 Spielt = false;
                 Wiederholen = false;

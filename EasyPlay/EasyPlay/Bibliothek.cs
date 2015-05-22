@@ -58,7 +58,7 @@ namespace EasyPlay
             }
         }
 
-        public List<Lied> getAlllLieder()
+        public List<Lied> getAllLieder()
         {
             return Lieder;
         }
