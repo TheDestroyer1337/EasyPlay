@@ -71,7 +71,6 @@ namespace EasyPlay
 
             Playlists = new List<Playlist>();
             Player = new MediaPlayer();
-            Player.MediaEnded += Player_MediaEnded;
             Timer = new DispatcherTimer();
             Timer.Interval = new TimeSpan(0, 0, 1);
             Timer.Tick += new EventHandler(PlayTime_Tick);
@@ -81,17 +80,44 @@ namespace EasyPlay
             this.displayData(MyType.Titel);
         }
 
-        void Player_MediaEnded(object sender, EventArgs e)
+        private void Player_MediaEnded()
         {
             if (Biblio.getSpielend())
             {
-                foreach(Lied l in Biblio)
+                Lied next = null;
+                foreach (Lied l in Biblio.getAlllLieder())
+                {
+                    if (next != null)
+                    {
+                        play(l.getPfad());
+                        next = null;
+                    }
+                    if (l.getSpielt())
+                        next = l;
+                    
+                }
+            }
+            else if (Wartelist.getSpielend())
+            {
+                Lied next = null;
+                foreach (Lied l in Wartelist.getAlllLieder())
+                {
+                    if (next != null)
+                    {
+                        play(l.getPfad());
+                        next = null;
+                    }
+                    if (l.getSpielt())
+                        next = l;
+                }
             }
         }
 
         private void PlayTime_Tick(object sender, EventArgs e)
         {
             LiedSlider.Value += 1;
+            if (LiedSlider.Value == LiedSlider.Maximum)
+                Player_MediaEnded();
         }
 
         private void TitelButton_Clicked(object sender, RoutedEventArgs e)
