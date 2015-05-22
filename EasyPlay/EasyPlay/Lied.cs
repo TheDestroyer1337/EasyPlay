@@ -58,6 +58,10 @@ namespace EasyPlay
                 MediaPlayer player = new MediaPlayer();
                 player.Open(new Uri(Pfad));
                 //Laenge = player.NaturalDuration.TimeSpan.ToString();
+                while (!player.NaturalDuration.HasTimeSpan)
+                {
+
+                }
                 Duration d = player.NaturalDuration;
                 string Splittit = d.ToString();
                 string[] splitD = Splittit.Split(new char[] { ':', '.' });
