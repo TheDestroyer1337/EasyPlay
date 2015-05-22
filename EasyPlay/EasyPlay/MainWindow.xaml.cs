@@ -369,7 +369,6 @@ namespace EasyPlay
                     Biblio.setSpielend(false);
                 }
             }
-           
         }
 
         private void save()
