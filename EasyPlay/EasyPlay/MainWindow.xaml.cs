@@ -172,7 +172,7 @@ namespace EasyPlay
                     List<Lied> lieder = Biblio.getAlllLieder();
                     foreach (Lied l in lieder)
                     {
-                        ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge() });
+                        ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge(), Pfad = l.getPfad() });
                     }
                     break;
                 case MyType.Album:
