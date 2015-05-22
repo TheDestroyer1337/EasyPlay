@@ -65,9 +65,9 @@ namespace EasyPlay
             ListViewTitel.Visibility = Visibility.Visible;
             ListViewPlaylists.Visibility = Visibility.Hidden;
             ListViewInterpreten.Visibility = Visibility.Hidden;
-            ListViewAlben.Visibility = Visibility.Hidden; 
+            ListViewAlben.Visibility = Visibility.Hidden;
 
-            
+            Playlists = new List<Playlist>();
             Player = new MediaPlayer();   
         }
 
@@ -159,7 +159,10 @@ namespace EasyPlay
         private void BtnPlaylistSpeichern_Click(object sender, RoutedEventArgs e)
         {
             Playlists.Add(Playlist);
-            ListViewPlaylists.Items.Add(new displayPlaylist { Name = Playlist.getName(), AnzTitel = Playlist.getAlllLieder().Count });
+            displayData(MyType.Playlists);
+//            ListViewPlaylists.Items.Add(new displayPlaylist { Name = Playlist.getName(), AnzLieder = Playlist.getAlllLieder().Count });
+            ListViewPlaylists.Visibility = Visibility.Visible;
+            ListViewTitel.Visibility = Visibility.Hidden;
             BtnPlaylistSpeichern.Visibility = Visibility.Hidden;
             BtnNeuePlaylist.Visibility = Visibility.Visible;
         }
@@ -180,6 +183,10 @@ namespace EasyPlay
                 case MyType.Interpret:
                     break;
                 case MyType.Playlists:
+                    foreach (Playlist p in Playlists)
+                    {
+                        ListViewTitel.Items.Add(new displayPlaylist { Name = p.getName(), AnzLieder = p.getAlllLieder().Count });
+                    }
                     break;
                 case MyType.Warteliste:
                     break;
@@ -214,7 +221,7 @@ namespace EasyPlay
         internal class displayPlaylist
         {
             public string Name { get; set; }
-            public int AnzTitel { get; set; }
+            public int AnzLieder { get; set; }
         }
 
         internal class displayAblum
