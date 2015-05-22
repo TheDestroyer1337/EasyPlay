@@ -11,6 +11,7 @@ using ID3TagLib;
 
 namespace EasyPlay
 {
+    [Serializable]
     class Lied
     {
         //Klassenvariabeln

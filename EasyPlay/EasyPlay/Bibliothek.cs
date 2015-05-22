@@ -7,6 +7,7 @@ using System.IO;
 
 namespace EasyPlay
 {
+    [Serializable]
     class Bibliothek
     {
         protected List<Lied> Lieder;

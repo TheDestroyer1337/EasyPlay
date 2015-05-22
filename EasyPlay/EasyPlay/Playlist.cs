@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace EasyPlay
 {
+    [Serializable]
     class Playlist : Bibliothek
     {
         //Klassenvariabeln

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace EasyPlay
 {
+    [Serializable]
     class Warteliste : Bibliothek
     {
         public Warteliste(List<Lied> lieder) : base(lieder)

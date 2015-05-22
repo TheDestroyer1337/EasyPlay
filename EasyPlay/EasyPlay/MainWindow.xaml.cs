@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Microsoft.Win32;
 using System.Windows.Forms;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace EasyPlay
 {
@@ -44,7 +45,7 @@ namespace EasyPlay
         {
             InitializeComponent();
 
-            string saveFile = AppDomain.CurrentDomain.BaseDirectory + "easyplay.txt";
+            string saveFile = AppDomain.CurrentDomain.BaseDirectory + "easyplay.bin";
             if (!File.Exists(saveFile))
             {
                 FolderBrowserDialog ofd = new FolderBrowserDialog();
@@ -53,7 +54,7 @@ namespace EasyPlay
                 bool result = false;
                 result = Convert.ToBoolean(ofd.ShowDialog());
                 Biblio = new Bibliothek(ofd.SelectedPath);
-                this.displayData(MyType.Titel);
+                
             }
             Player = new MediaPlayer();
             BtnPlay.Visibility = Visibility.Visible;
@@ -67,7 +68,9 @@ namespace EasyPlay
             ListViewAlben.Visibility = Visibility.Hidden;
 
             Playlists = new List<Playlist>();
-            Player = new MediaPlayer();   
+            Player = new MediaPlayer();
+            this.load();
+            this.displayData(MyType.Titel);
         }
 
         private void TitelButton_Clicked(object sender, RoutedEventArgs e)
@@ -266,6 +269,31 @@ namespace EasyPlay
                 }
             }
            
+        }
+
+        private void save()
+        {
+            string saveFile = AppDomain.CurrentDomain.BaseDirectory + "easyplay.bin";
+            FileStream fs = new FileStream(saveFile, FileMode.Create);
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(fs, Biblio);
+            formatter.Serialize(fs, Playlists);
+            formatter.Serialize(fs, Wartelist);
+            fs.Close();
+        }
+
+        private void load()
+        {
+            string saveFile = AppDomain.CurrentDomain.BaseDirectory + "easyplay.bin";
+            if (File.Exists(saveFile))
+            {
+                FileStream fs = new FileStream(saveFile, FileMode.Open);
+                BinaryFormatter formatter = new BinaryFormatter();
+                Biblio = (Bibliothek)formatter.Deserialize(fs);
+                Playlists = (List<Playlist>)formatter.Deserialize(fs);
+                Wartelist = (Warteliste)formatter.Deserialize(fs);
+                fs.Close();
+            }
         }
     }
 }
