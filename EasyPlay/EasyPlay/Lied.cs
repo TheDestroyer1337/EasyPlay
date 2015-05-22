@@ -7,6 +7,7 @@ using System.IO;
 using System.Media;
 using System.Windows.Media;
 using System.Windows;
+using ID3TagLib;
 
 namespace EasyPlay
 {
@@ -31,25 +32,13 @@ namespace EasyPlay
             if (split[length].Equals("mp3"))
             {
                 Pfad = pfad;
-                FileInfo file = new FileInfo(Pfad);
-                Stream s = file.OpenRead();
-
-                byte [] bytes = new byte[128];
-                s.Seek(-128, SeekOrigin.End);
-                int numBytesToRead = 128;
-                int numBytesRead = 0;
-                while (numBytesToRead > 0)
-                {
-                    int n = s.Read(bytes, numBytesRead, numBytesToRead);
-
-                    if (n == 0)
-                        break;
-                    numBytesRead += n;
-                    numBytesToRead -= n;
-                }
-                Titel = ConvertByteToString(bytes, 3, 32);
-                Interpret = ConvertByteToString(bytes, 33, 62);
-                Album = ConvertByteToString(bytes, 63, 92);
+                
+                ID3File tag = new ID3File(Pfad);
+                ID3v2Tag v2Tag = tag.ID3v2Tag;
+                TextFrame f = v2Tag.Frames[FrameFactory.AlbumFrameId] as TextFrame;
+                Album = f.Text;
+                f = v2Tag.Frames[FrameFactory.TitleFrameId] as TextFrame;
+                Titel = f.Text;
 
                 Spielt = false;
                 Wiederholen = false;
@@ -71,22 +60,6 @@ namespace EasyPlay
                 Laenge = std + ":" + min + ":" + sec;
             }
         }
-        //Methode um Bytes in Strings zu konvertieren
-        private static String ConvertByteToString(byte[] bytes, int pos1, int pos2)
-        {
-            if ((pos1 > pos2) || (pos2 > bytes.Length - 1))
-                throw new ArgumentException("Aruments out of range");
-
-            int length = pos2 - pos1 + 1;
-
-            char[] chars = new char[length];
-
-            for (int i = 0; i < length; i++)
-                chars[i] = Convert.ToChar(bytes[i + pos1]);
-
-            return new String(chars);
-        }
-
         //Klassenmethoden
         public void setSpielt(bool value)
         {

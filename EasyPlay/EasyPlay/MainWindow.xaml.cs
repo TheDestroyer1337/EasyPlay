@@ -55,7 +55,6 @@ namespace EasyPlay
                 Biblio = new Bibliothek(ofd.SelectedPath);
                 this.displayData(MyType.Titel);
             }
-            this.displayData(MyType.Titel);
             Player = new MediaPlayer();
             BtnPlay.Visibility = Visibility.Visible;
             BtnPause.Visibility = Visibility.Hidden;
