@@ -77,5 +77,15 @@ namespace EasyPlay
             }
             return null;
         }
+
+        public bool getSpielend()
+        {
+            return Spielt;
+        }
+
+        public void setSpielend(bool value)
+        {
+            Spielt = value;
+        }
     }
 }
