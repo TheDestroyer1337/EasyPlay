@@ -35,6 +35,8 @@ namespace EasyPlay
         private TimeSpan Pause;
         private Playlist Playlist;
         private bool IsPlaylist;
+        private bool mouseCaptured;
+        private double Volume;
         
         private enum MyType
         {
@@ -63,11 +65,17 @@ namespace EasyPlay
             BtnPlaylistSpeichern.Visibility = Visibility.Hidden;
             BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
             BtnZuWarteliste.Visibility = Visibility.Visible;
-
+            BtnLaut.Visibility = Visibility.Hidden;
+            BtnStumm.Visibility = Visibility.Visible;
+            
             ListViewTitel.Visibility = Visibility.Visible;
             ListViewPlaylists.Visibility = Visibility.Hidden;
             ListViewInterpreten.Visibility = Visibility.Hidden;
             ListViewAlben.Visibility = Visibility.Hidden;
+
+            VolumeSlider.Maximum = 100;
+            VolumeSlider.Value = 50;
+            mouseCaptured = false;
 
             Playlists = new List<Playlist>();
             Player = new MediaPlayer();
@@ -434,13 +442,6 @@ namespace EasyPlay
             }
         }
 
-        private void LiedSlider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            int value = Convert.ToInt16(LiedSlider.Value);
-            TimeSpan time = new TimeSpan(0, 0, value);
-            Player.Position = time;
-        }
-
         private void play(string pfad)
         {
             Player.Open(new Uri(pfad));
@@ -471,6 +472,51 @@ namespace EasyPlay
             }
             BtnPlay.Visibility = Visibility.Hidden;
             BtnPause.Visibility = Visibility.Visible;
+        }
+
+        private void LiedSlider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            int value = Convert.ToInt16(LiedSlider.Value);
+            TimeSpan time = new TimeSpan(0, 0, value);
+            Player.Position = time;
+        }
+
+        private void VolumeSlider_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed && mouseCaptured)
+            {
+                var x = e.GetPosition(VolumeSlider).X;
+                var ratio = x / VolumeSlider.ActualWidth;
+                Volume = ratio * VolumeSlider.Maximum;
+                Player.Volume = Volume / 100;
+            }
+        }
+
+        private void VolumeSlider_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            mouseCaptured = true;
+        }
+
+        private void VolumeSlider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            mouseCaptured = false;
+        }
+
+        private void BtnStumm_Click(object sender, RoutedEventArgs e)
+        {
+            Volume = Player.Volume * 100;
+            Player.Volume = 0;
+            VolumeSlider.Value = Player.Volume;
+            BtnStumm.Visibility = Visibility.Hidden;
+            BtnLaut.Visibility = Visibility.Visible;
+        }
+
+        private void BtnLaut_Click(object sender, RoutedEventArgs e)
+        {
+            VolumeSlider.Value = Volume;
+            Player.Volume = VolumeSlider.Value / 100;            
+            BtnLaut.Visibility = Visibility.Hidden;
+            BtnStumm.Visibility = Visibility.Visible;
         }
     }
 }
