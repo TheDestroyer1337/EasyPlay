@@ -110,6 +110,9 @@
     <Resource Include="Resources\pause.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\leise.png" />
+    <Resource Include="Resources\stumm.png" />
+    <Resource Include="Resources\laut.png" />
     <Content Include="Resources\ID3TagLib.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

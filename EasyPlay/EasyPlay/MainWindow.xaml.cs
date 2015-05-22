@@ -65,7 +65,9 @@ namespace EasyPlay
             BtnPlaylistSpeichern.Visibility = Visibility.Hidden;
             BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
             BtnZuWarteliste.Visibility = Visibility.Visible;
-
+            BtnLaut.Visibility = Visibility.Hidden;
+            BtnStumm.Visibility = Visibility.Visible;
+            
             ListViewTitel.Visibility = Visibility.Visible;
             ListViewPlaylists.Visibility = Visibility.Hidden;
             ListViewInterpreten.Visibility = Visibility.Hidden;
@@ -472,6 +474,23 @@ namespace EasyPlay
         private void VolumeSlider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             mouseCaptured = false;
+        }
+
+        private void BtnStumm_Click(object sender, RoutedEventArgs e)
+        {
+            Volume = Player.Volume * 100;
+            Player.Volume = 0;
+            VolumeSlider.Value = Player.Volume;
+            BtnStumm.Visibility = Visibility.Hidden;
+            BtnLaut.Visibility = Visibility.Visible;
+        }
+
+        private void BtnLaut_Click(object sender, RoutedEventArgs e)
+        {
+            VolumeSlider.Value = Volume;
+            Player.Volume = VolumeSlider.Value / 100;            
+            BtnLaut.Visibility = Visibility.Hidden;
+            BtnStumm.Visibility = Visibility.Visible;
         }
     }
 }
