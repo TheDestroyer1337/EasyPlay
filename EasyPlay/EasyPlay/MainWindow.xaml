@@ -110,13 +110,13 @@
                 <ImageBrush Stretch="Uniform" ImageSource="Resources/laut.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="BtnLiedWiederholen" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="32" RenderTransformOrigin="3.053,1.2" Margin="344,2,0,0" Height="21" Grid.Row="3" Click="BtnLiedWiederholen_Click" BorderBrush="{x:Null}" Foreground="{x:Null}">
+        <Button x:Name="BtnLiedWiederholen" Content="" RenderTransformOrigin="3.053,1.2" Margin="344,0,145,3" Grid.Row="3" Click="BtnLiedWiederholen_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="21" VerticalAlignment="Bottom">
             <Button.Background>
                 <ImageBrush Stretch="Uniform" ImageSource="Resources/liedwieder.png"/>
             </Button.Background>
         </Button>
         <Label x:Name="LblLiedName" HorizontalAlignment="Left" Margin="74,0,0,0" Grid.Row="3" VerticalAlignment="Top" Width="253"/>
-        <Button x:Name="BtnPlaylistWiederholen" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="27" RenderTransformOrigin="3.053,1.2" Margin="377,5,0,0" Height="15" Grid.Row="3" BorderBrush="{x:Null}" Foreground="{x:Null}">
+        <Button x:Name="BtnPlaylistWiederholen" Content="" RenderTransformOrigin="3.053,1.2" Margin="377,0,117,6" Grid.Row="3" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="15" VerticalAlignment="Bottom">
             <Button.Background>
                 <ImageBrush Stretch="Uniform" ImageSource="Resources/playlistwieder.png"/>
             </Button.Background>
