@@ -100,6 +100,11 @@ namespace EasyPlay
                         play(l.getPfad());
                         next = null;
                     }
+                    else if (l.getWiederholen())
+                    {
+                        play(l.getPfad());
+                        next = null;
+                    }
                     if (l.getSpielt() && !l.getWiederholen())
                     {
                         next = l;
@@ -403,6 +408,10 @@ namespace EasyPlay
                 Playlists = (List<Playlist>)formatter.Deserialize(fs);
                 Wartelist = (Warteliste)formatter.Deserialize(fs);
                 fs.Close();
+                foreach(Lied l in Biblio.getAlllLieder())
+                {
+                    l.setWiederholen(false);
+                }
             }
         }
         private void BtnPlaylistLoeschen_Click(object sender, RoutedEventArgs e)
@@ -533,19 +542,18 @@ namespace EasyPlay
             item = (displayTitel)ListViewTitel.SelectedItem;
             foreach (Lied l in Biblio.getAlllLieder())
             {
-                if (l.getPfad() == item.Pfad)
+                if (l.getWiederholen())
                 {
-                    if (l.getWiederholen())
-                    {
-                        BtnLiedWiederholen.BorderBrush = new SolidColorBrush(Colors.White); 
-                        l.setWiederholen(false);
-                    }
-                    else
+                    BtnLiedWiederholen.BorderBrush = new SolidColorBrush(Colors.White); 
+                    l.setWiederholen(false);
+                }
+                else
+                {
+                    if (l.getPfad() == item.Pfad)
                     {
                         BtnLiedWiederholen.BorderBrush = new SolidColorBrush(Colors.Orange);
                         l.setWiederholen(true);
                     }
-
                 }
             }
         }
