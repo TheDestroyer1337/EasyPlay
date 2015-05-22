@@ -346,5 +346,10 @@ namespace EasyPlay
                 }
             }
         }
+
+        private void FrmMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            save();
+        }
     }
 }
