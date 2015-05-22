@@ -109,6 +109,7 @@ namespace EasyPlay
                     if (l.getSpielt() && !l.getWiederholen())
                     {
                         next = l;
+                        Timer.Stop();
                         l.setSpielt(false);
                     }
                 }
@@ -168,6 +169,7 @@ namespace EasyPlay
             {
                 Player_MediaEnded();
                 LiedSlider.Value = 0;
+                
             }
         }
 
@@ -625,6 +627,16 @@ namespace EasyPlay
         private void MenuAddLieder_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "MP3 Dateien (*.mp3)|*.mp3";
+            ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+            ofd.Title = "Lied öffenen";
+            bool result = false;
+            result = Convert.ToBoolean(ofd.ShowDialog());
+            if (result)
+            {
+                Biblio.addLied(ofd.FileName);
+                displayData(MyType.Titel);
+            }
         }
     }
 }
