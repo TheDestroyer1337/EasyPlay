@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using Microsoft.Win32;
+//using Microsoft.Win32;
 using System.Windows.Forms;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -617,6 +617,11 @@ namespace EasyPlay
                     p.setWiederholen(false);
                 }
             }
+        }
+
+        private void MenuAddLieder_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
         }
     }
 }
