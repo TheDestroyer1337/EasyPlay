@@ -33,7 +33,8 @@ namespace EasyPlay
         private DispatcherTimer Timer;
         private TimeSpan Pause;
         private Playlist Playlist;
-
+        private bool IsPlaylist;
+        
         private enum MyType
         {
             Titel, Interpret, Album, Playlists, Warteliste
@@ -145,7 +146,7 @@ namespace EasyPlay
             Playlist = new Playlist(null, InputTextBox.Text);
             InputBox.Visibility = Visibility.Collapsed;
             ListViewTitel.Visibility = Visibility.Visible;
-            //Playlist.addLied();
+            IsPlaylist = true;
         }
 
         private void AbbrechenButton_Click(object sender, RoutedEventArgs e)
@@ -167,6 +168,24 @@ namespace EasyPlay
                     break;
                 case MyType.Warteliste:
                     break;
+            }
+        }
+
+        private void ListViewTitel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (IsPlaylist)
+            {
+                TestClass item = new TestClass();
+                item = (TestClass)ListViewTitel.SelectedItem;
+                foreach (Lied l in Biblio.getAlllLieder())
+                {
+                    if (item.Titel == l.getTitel())
+                    {
+                        Playlist.addLied(l.getPfad());
+                    }
+                }
+                Playlists.Add(Playlist);
+                ListViewPlaylists.Items.Add(new PlaylistClass { Name = Playlist.Name, AnzTitel = 2 });
             }
         }
     }
