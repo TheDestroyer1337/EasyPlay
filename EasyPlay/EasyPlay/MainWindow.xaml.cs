@@ -93,7 +93,7 @@ namespace EasyPlay
             if (Biblio.getSpielend())
             {
                 Lied next = null;
-                foreach (Lied l in Biblio.getAlllLieder())
+                foreach (Lied l in Biblio.getAllLieder())
                 {
                     if (next != null && next != l)
                     {
@@ -111,18 +111,23 @@ namespace EasyPlay
             else if (Wartelist.getSpielend())
             {
                 Lied next = null;
-                foreach (Lied l in Wartelist.getAlllLieder())
+                foreach (Lied l in Biblio.getAllLieder())
                 {
-                    if (next != null)
+                    if (l.getWartend())
                     {
-                        play(l.getPfad());
-                        next = null;
-                    }
-                    if (l.getSpielt())
-                    {
-                        next = l;
-                        l.setSpielt(false);
-                        Wartelist.Gespielt(l);
+                        if (next != null)
+                        {
+                            play(l.getPfad());
+                            next = null;
+                        }
+                        else if (l.getSpielt() && next == null)
+                        {
+                            next = l;
+                            l.setSpielt(false);
+                            l.setWartend(false);
+                            displayData(MyType.Warteliste);
+                            Timer.Stop();
+                        }
                     }
                 }
             }
@@ -285,7 +290,7 @@ namespace EasyPlay
             {
                 case MyType.Titel:
                     ListViewTitel.Items.Clear();
-                    foreach (Lied l in Biblio.getAlllLieder())
+                    foreach (Lied l in Biblio.getAllLieder())
                     {
                         ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge(), Pfad = l.getPfad() });
                     }
@@ -300,14 +305,15 @@ namespace EasyPlay
                     ListViewPlaylists.Items.Clear();
                     foreach (Playlist p in Playlists)
                     {
-                        ListViewPlaylists.Items.Add(new displayPlaylist { Name = p.getName(), AnzLieder = p.getAlllLieder().Count });
+                        ListViewPlaylists.Items.Add(new displayPlaylist { Name = p.getName(), AnzLieder = p.getAllLieder().Count });
                     }
                     break;
                 case MyType.Warteliste:
                     ListViewTitel.Items.Clear();
-                    foreach (Lied l in Wartelist.getAlllLieder())
+                    foreach (Lied l in Biblio.getAllLieder())
                     {
-                        ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge(), Pfad = l.getPfad() });
+                        if(l.getWartend())
+                            ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge(), Pfad = l.getPfad() });
                     }
                     break;
             }
@@ -319,7 +325,7 @@ namespace EasyPlay
             {
                 displayTitel item = new displayTitel();
                 item = (displayTitel)ListViewTitel.SelectedItem;
-                foreach (Lied l in Biblio.getAlllLieder())
+                foreach (Lied l in Biblio.getAllLieder())
                 {
                     if (item.Pfad == l.getPfad())
                     {
@@ -371,7 +377,7 @@ namespace EasyPlay
                     BtnNeuePlaylist.Visibility = Visibility.Hidden;
                     BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
                     BtnZuWarteliste.Visibility = Visibility.Visible;
-                    foreach (Lied l in p.getAlllLieder())
+                    foreach (Lied l in p.getAllLieder())
                     {
                         ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge(), Pfad = l.getPfad() });
                     }
@@ -425,11 +431,12 @@ namespace EasyPlay
         {
             displayTitel item = new displayTitel();
             item = (displayTitel)ListViewTitel.SelectedItem;
-            foreach (Lied l in Biblio.getAlllLieder())
+            foreach (Lied l in Biblio.getAllLieder())
             {
                 if (item.Pfad == l.getPfad())
                 {
                     Wartelist.addLied(l);
+                    l.setWartend(true);
                 }
             }
         }
@@ -444,7 +451,7 @@ namespace EasyPlay
             displayTitel item = new displayTitel();
             item = (displayTitel)ListViewTitel.SelectedItem;
             play(item.Pfad);
-            foreach (Lied l in Biblio.getAlllLieder())
+            foreach (Lied l in Biblio.getAllLieder())
             {
                 if (l.getPfad() == item.Pfad)
                     l.setSpielt(true);
@@ -454,6 +461,11 @@ namespace EasyPlay
         private void play(string pfad)
         {
             Player.Open(new Uri(pfad));
+            foreach (Lied l in Biblio.getAllLieder())
+            {
+                if (l.getPfad() == pfad)
+                    l.setSpielt(true);
+            }
             Player.Play();
             while (!Player.NaturalDuration.HasTimeSpan)
             {
@@ -533,7 +545,7 @@ namespace EasyPlay
             displayTitel item = new displayTitel();
             item = (displayTitel)ListViewTitel.SelectedItem;
             play(item.Pfad);
-            foreach (Lied l in Biblio.getAlllLieder())
+            foreach (Lied l in Biblio.getAllLieder())
             {
                 if (l.getPfad() == item.Pfad)
                     l.setWiederholen(true);
