@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Media;
 using System.Windows.Media;
+using System.Windows;
 
 namespace EasyPlay
 {
@@ -56,7 +57,14 @@ namespace EasyPlay
                 
                 MediaPlayer player = new MediaPlayer();
                 player.Open(new Uri(Pfad));
-                Laenge = player.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
+                //Laenge = player.NaturalDuration.TimeSpan.ToString();
+                Duration d = player.NaturalDuration;
+                string Splittit = d.ToString();
+                string[] splitD = Splittit.Split(new char[] { ':', '.' });
+                int std = Convert.ToInt16(splitD[0]);
+                int min = Convert.ToInt16(splitD[1]);
+                int sec = Convert.ToInt16(splitD[2]);
+                Laenge = std + ":" + min + ":" + sec;
             }
         }
         //Methode um Bytes in Strings zu konvertieren

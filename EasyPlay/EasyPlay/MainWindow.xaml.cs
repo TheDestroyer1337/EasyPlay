@@ -157,7 +157,11 @@ namespace EasyPlay
             switch (type)
             {
                 case MyType.Titel:
-                    ListViewTitel.Items.Add(new displayTitel { Titel = "test", Album = "test", Interpret = "meins", Dauer = 3, Pfad = "Bullshiet" });
+                    List<Lied> lieder = Biblio.getAlllLieder();
+                    foreach (Lied l in lieder)
+                    {
+                        ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge() });
+                    }
                     break;
                 case MyType.Album:
                     break;
@@ -193,7 +197,7 @@ namespace EasyPlay
             public string Titel { get; set; }
             public string Interpret { get; set; }
             public string Album { get; set; }
-            public int Dauer { get; set; }
+            public string Dauer { get; set; }
             public string Pfad { get; set; }
         }
 
@@ -205,7 +209,15 @@ namespace EasyPlay
 
         internal class displayAblum
         {
+            public string Album { get; set; }
+            public string Interpret { get; set; }
+            public int AnzLieder { get; set; }
+        }
 
+        internal class displayInterpret
+        {
+            public string Interpret { get; set; }
+            public int AnzLieder { get; set; }
         }
     }
 }
