@@ -21,7 +21,11 @@ namespace EasyPlay
 
         public Bibliothek(List<Lied> lieder)
         {
-            Lieder = lieder;
+            if (lieder == null)
+                Lieder = new List<Lied>();
+            else
+                Lieder = lieder;
+
             Spielt = false;
         }
 
