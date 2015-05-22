@@ -38,5 +38,15 @@ namespace EasyPlay
         {
             Lieder.Add(l);
         }
+
+        public void setWiederholen(bool wiederholen)
+        {
+            Wiederholen = wiederholen;
+        }
+
+        public bool  getWiederholen()
+        {
+            return Wiederholen;
+        }
     }
 }

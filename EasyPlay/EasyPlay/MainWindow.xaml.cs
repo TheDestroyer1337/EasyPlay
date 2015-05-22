@@ -67,6 +67,7 @@ namespace EasyPlay
             BtnZuWarteliste.Visibility = Visibility.Visible;
             BtnLaut.Visibility = Visibility.Hidden;
             BtnStumm.Visibility = Visibility.Visible;
+            BtnPlaylistWiederholen.Visibility = Visibility.Hidden;
             
             ListViewTitel.Visibility = Visibility.Visible;
             ListViewPlaylists.Visibility = Visibility.Hidden;
@@ -130,6 +131,29 @@ namespace EasyPlay
                     }
                 }
             }
+            else
+            {
+                foreach(Playlist p in Playlists)
+                {
+                    if (p.getSpielend())
+                    {
+                        Lied next = null;
+                        foreach (Lied l in p.getAlllLieder())
+                        {
+                            if (next != null)
+                            {
+                                play(l.getPfad());
+                                next = null;
+                            }
+                            if (l.getSpielt())
+                            {
+                                next = l;
+                                l.setSpielt(false);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void PlayTime_Tick(object sender, EventArgs e)
@@ -151,6 +175,7 @@ namespace EasyPlay
             BtnNeuePlaylist.Visibility = Visibility.Hidden;
             BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
             BtnZuWarteliste.Visibility = Visibility.Visible;
+            BtnPlaylistWiederholen.Visibility = Visibility.Hidden;
             displayData(MyType.Titel);
             Wartelist.setSpielend(false);
             foreach (Playlist p in Playlists)
@@ -217,6 +242,7 @@ namespace EasyPlay
             BtnNeuePlaylist.Visibility = Visibility.Hidden;
             BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
             BtnZuWarteliste.Visibility = Visibility.Hidden;
+            BtnPlaylistWiederholen.Visibility = Visibility.Hidden;
             displayData(MyType.Warteliste);
             Wartelist.setSpielend(true);
             foreach (Playlist p in Playlists)
@@ -369,12 +395,14 @@ namespace EasyPlay
             {
                 if (item.Name == p.getName())
                 {
+                    BtnPlaylistWiederholen.Visibility = Visibility.Visible;
                     ListViewTitel.Items.Clear();
                     ListViewPlaylists.Visibility = Visibility.Hidden;
                     ListViewTitel.Visibility = Visibility.Visible;
                     BtnNeuePlaylist.Visibility = Visibility.Hidden;
                     BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
                     BtnZuWarteliste.Visibility = Visibility.Visible;
+                    p.setSpielend(true);
                     foreach (Lied l in p.getAlllLieder())
                     {
                         ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge(), Pfad = l.getPfad() });
@@ -554,6 +582,23 @@ namespace EasyPlay
                         BtnLiedWiederholen.BorderBrush = new SolidColorBrush(Colors.Orange);
                         l.setWiederholen(true);
                     }
+                }
+            }
+        }
+
+        private void BtnPlaylistWiederholen_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Playlist p in Playlists)
+            {
+                if (p.getSpielend())
+                {
+                    BtnPlaylistWiederholen.BorderBrush = new SolidColorBrush(Colors.Orange);
+                    p.setWiederholen(true);
+                }
+                else
+                {
+                    BtnPlaylistWiederholen.BorderBrush = new SolidColorBrush(Colors.White);
+                    p.setWiederholen(false);
                 }
             }
         }
