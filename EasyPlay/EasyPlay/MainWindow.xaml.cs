@@ -608,13 +608,16 @@ namespace EasyPlay
             {
                 if (p.getSpielend())
                 {
-                    BtnPlaylistWiederholen.BorderBrush = new SolidColorBrush(Colors.Orange);
-                    p.setWiederholen(true);
-                }
-                else
-                {
-                    BtnPlaylistWiederholen.BorderBrush = new SolidColorBrush(Colors.White);
-                    p.setWiederholen(false);
+                    if (p.getWiederholen())
+                    {
+                        BtnPlaylistWiederholen.BorderBrush = new SolidColorBrush(Colors.White);
+                        p.setWiederholen(false);
+                    }
+                    else
+                    {
+                        BtnPlaylistWiederholen.BorderBrush = new SolidColorBrush(Colors.Orange);
+                        p.setWiederholen(true);
+                    }
                 }
             }
         }
