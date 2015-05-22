@@ -35,6 +35,7 @@
                     <GridViewColumn Header="Interpret" DisplayMemberBinding="{Binding Interpret}" Width="Auto"></GridViewColumn>
                     <GridViewColumn Header="Album" DisplayMemberBinding="{Binding Album}" Width="Auto"></GridViewColumn>
                     <GridViewColumn Header="Dauer" DisplayMemberBinding="{Binding Dauer}" Width="Auto"></GridViewColumn>
+                    <GridViewColumn Header="Pfad" DisplayMemberBinding="{Binding Pfad}" Width="0" ></GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
