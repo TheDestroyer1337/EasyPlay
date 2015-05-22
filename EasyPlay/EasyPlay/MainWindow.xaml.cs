@@ -95,13 +95,16 @@ namespace EasyPlay
                 Lied next = null;
                 foreach (Lied l in Biblio.getAlllLieder())
                 {
-                    if (next != null)
+                    if (next != null && next != l)
                     {
                         play(l.getPfad());
                         next = null;
                     }
                     if (l.getSpielt())
+                    {
                         next = l;
+                        l.setSpielt(false);
+                    }
                     
                 }
             }
@@ -125,7 +128,10 @@ namespace EasyPlay
         {
             LiedSlider.Value += 1;
             if (LiedSlider.Value == LiedSlider.Maximum)
+            {
                 Player_MediaEnded();
+                LiedSlider.Value = 0;
+            }
         }
 
         private void TitelButton_Clicked(object sender, RoutedEventArgs e)
@@ -228,6 +234,7 @@ namespace EasyPlay
         private void BtnPlay_Click(object sender, RoutedEventArgs e)
         {
             Player.Play();
+            Timer.Start();
             BtnPlay.Visibility = Visibility.Hidden;
             BtnPause.Visibility = Visibility.Visible;
         }
