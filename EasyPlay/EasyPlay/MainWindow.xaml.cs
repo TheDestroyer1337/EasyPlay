@@ -60,6 +60,8 @@ namespace EasyPlay
             BtnPause.Visibility = Visibility.Hidden;
             BtnNeuePlaylist.Visibility = Visibility.Hidden;
             BtnPlaylistSpeichern.Visibility = Visibility.Hidden;
+            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
+            BtnZuWarteliste.Visibility = Visibility.Visible;
 
             ListViewTitel.Visibility = Visibility.Visible;
             ListViewPlaylists.Visibility = Visibility.Hidden;
@@ -67,6 +69,7 @@ namespace EasyPlay
             ListViewAlben.Visibility = Visibility.Hidden;
 
             Playlists = new List<Playlist>();
+            Wartelist = new Warteliste(null);
             Player = new MediaPlayer();   
         }
 
@@ -77,6 +80,8 @@ namespace EasyPlay
             ListViewAlben.Visibility = Visibility.Hidden;
             ListViewInterpreten.Visibility = Visibility.Hidden;
             BtnNeuePlaylist.Visibility = Visibility.Hidden;
+            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
+            BtnZuWarteliste.Visibility = Visibility.Visible;
             displayData(MyType.Titel);
         }
 
@@ -87,6 +92,8 @@ namespace EasyPlay
             ListViewAlben.Visibility = Visibility.Hidden;
             ListViewInterpreten.Visibility = Visibility.Hidden;
             BtnNeuePlaylist.Visibility = Visibility.Visible;
+            BtnPlaylistLoeschen.Visibility = Visibility.Visible;
+            BtnZuWarteliste.Visibility = Visibility.Hidden;
             displayData(MyType.Playlists);
         }
 
@@ -97,6 +104,8 @@ namespace EasyPlay
             ListViewAlben.Visibility = Visibility.Visible;
             ListViewInterpreten.Visibility = Visibility.Hidden;
             BtnNeuePlaylist.Visibility = Visibility.Hidden;
+            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
+            BtnZuWarteliste.Visibility = Visibility.Hidden;
             displayData(MyType.Album);
         }
 
@@ -107,6 +116,8 @@ namespace EasyPlay
             ListViewAlben.Visibility = Visibility.Hidden;
             ListViewInterpreten.Visibility = Visibility.Visible;
             BtnNeuePlaylist.Visibility = Visibility.Hidden;
+            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
+            BtnZuWarteliste.Visibility = Visibility.Hidden;
             displayData(MyType.Interpret);
         }
 
@@ -117,6 +128,8 @@ namespace EasyPlay
             ListViewAlben.Visibility = Visibility.Hidden;
             ListViewInterpreten.Visibility = Visibility.Hidden;
             BtnNeuePlaylist.Visibility = Visibility.Hidden;
+            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
+            BtnZuWarteliste.Visibility = Visibility.Hidden;
             displayData(MyType.Warteliste);
         }
 
@@ -149,9 +162,11 @@ namespace EasyPlay
             Playlist = new Playlist(null, InputTextBox.Text);
             InputBox.Visibility = Visibility.Collapsed;
             BtnNeuePlaylist.Visibility = Visibility.Hidden;
+            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
             BtnPlaylistSpeichern.Visibility = Visibility.Visible;
             ListViewPlaylists.Visibility = Visibility.Hidden;
             ListViewTitel.Visibility = Visibility.Visible;
+            BtnZuWarteliste.Visibility = Visibility.Hidden;
             IsPlaylist = true;
         }
 
@@ -164,11 +179,12 @@ namespace EasyPlay
         {
             Playlists.Add(Playlist);
             displayData(MyType.Playlists);
-//            ListViewPlaylists.Items.Add(new displayPlaylist { Name = Playlist.getName(), AnzLieder = Playlist.getAlllLieder().Count });
             ListViewPlaylists.Visibility = Visibility.Visible;
             ListViewTitel.Visibility = Visibility.Hidden;
             BtnPlaylistSpeichern.Visibility = Visibility.Hidden;
             BtnNeuePlaylist.Visibility = Visibility.Visible;
+            BtnPlaylistLoeschen.Visibility = Visibility.Visible;
+            BtnZuWarteliste.Visibility = Visibility.Hidden;
             IsPlaylist = false;
         }
 
@@ -178,8 +194,7 @@ namespace EasyPlay
             {
                 case MyType.Titel:
                     ListViewTitel.Items.Clear();
-                    List<Lied> lieder = Biblio.getAlllLieder();
-                    foreach (Lied l in lieder)
+                    foreach (Lied l in Biblio.getAlllLieder())
                     {
                         ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge(), Pfad = l.getPfad() });
                     }
@@ -199,6 +214,10 @@ namespace EasyPlay
                     break;
                 case MyType.Warteliste:
                     ListViewTitel.Items.Clear();
+                    foreach (Lied l in Wartelist.getAlllLieder())
+                    {
+                        ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge(), Pfad = l.getPfad() });
+                    }
                     break;
             }
         }
@@ -259,6 +278,8 @@ namespace EasyPlay
                     ListViewPlaylists.Visibility = Visibility.Hidden;
                     ListViewTitel.Visibility = Visibility.Visible;
                     BtnNeuePlaylist.Visibility = Visibility.Hidden;
+                    BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
+                    BtnZuWarteliste.Visibility = Visibility.Visible;
                     foreach (Lied l in p.getAlllLieder())
                     {
                         ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge(), Pfad = l.getPfad() });
@@ -266,6 +287,34 @@ namespace EasyPlay
                 }
             }
            
+        }
+
+        private void BtnPlaylistLoeschen_Click(object sender, RoutedEventArgs e)
+        {
+            displayPlaylist item = new displayPlaylist();
+            item = (displayPlaylist)ListViewPlaylists.SelectedItem;
+            foreach (Playlist p in Playlists)
+            {
+                if (item.Name == p.getName())
+                {
+                    Playlists.Remove(p);
+                    displayData(MyType.Playlists);
+                    break;
+                }
+            }
+        }
+
+        private void BtnZuWarteliste_Click(object sender, RoutedEventArgs e)
+        {
+            displayTitel item = new displayTitel();
+            item = (displayTitel)ListViewTitel.SelectedItem;
+            foreach (Lied l in Biblio.getAlllLieder())
+            {
+                if (item.Pfad == l.getPfad())
+                {
+                    Wartelist.addLied(l);
+                }
+            }
         }
     }
 }
