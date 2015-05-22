@@ -35,6 +35,8 @@ namespace EasyPlay
         private TimeSpan Pause;
         private Playlist Playlist;
         private bool IsPlaylist;
+        private bool mouseCaptured;
+        private double Volume;
         
         private enum MyType
         {
@@ -68,6 +70,10 @@ namespace EasyPlay
             ListViewPlaylists.Visibility = Visibility.Hidden;
             ListViewInterpreten.Visibility = Visibility.Hidden;
             ListViewAlben.Visibility = Visibility.Hidden;
+
+            VolumeSlider.Maximum = 100;
+            VolumeSlider.Value = 50;
+            mouseCaptured = false;
 
             Playlists = new List<Playlist>();
             Player = new MediaPlayer();
@@ -394,6 +400,31 @@ namespace EasyPlay
             int value = Convert.ToInt16(LiedSlider.Value);
             TimeSpan time = new TimeSpan(0, 0, value);
             Player.Position = time;
+        }
+
+        private void VolumeSlider_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed && mouseCaptured)
+            {
+                var x = e.GetPosition(VolumeSlider).X;
+                var ratio = x / VolumeSlider.ActualWidth;
+                Volume = ratio * VolumeSlider.Maximum;
+                Player.Volume = Volume / 100;
+            }
+        }
+
+        private void VolumeSlider_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            mouseCaptured = true;
+//            var x = e.GetPosition(VolumeSlider).X;
+//            var ratio = x / VolumeSlider.ActualWidth;
+//            Volume = ratio * VolumeSlider.Maximum;
+//            Player.Volume = (double) Volume / 100;
+        }
+
+        private void VolumeSlider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            mouseCaptured = false;
         }
     }
 }

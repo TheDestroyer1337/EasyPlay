@@ -64,7 +64,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Slider x:Name="LiedSlider" Margin="52,0,40,10" Grid.RowSpan="4" Height="28" VerticalAlignment="Bottom" PreviewMouseLeftButtonUp="LiedSlider_PreviewMouseLeftButtonUp"/>
+        <Slider x:Name="LiedSlider" Margin="52,0,102,10" Grid.RowSpan="4" Height="28" VerticalAlignment="Bottom" PreviewMouseLeftButtonUp="LiedSlider_PreviewMouseLeftButtonUp"/>
         <Button x:Name="BtnPlay" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="27" Margin="10,0,0,14" Height="24" BorderThickness="0" Click="BtnPlay_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Grid.RowSpan="4" >
             <Button.Background>
                 <ImageBrush Stretch="Uniform" ImageSource="Resources/play.png"/>
@@ -76,7 +76,7 @@
                 <ImageBrush Stretch="Uniform" ImageSource="Resources/pause.png" />
             </Button.Background>
         </Button>
-        <Slider x:Name="VolumeSlider" Margin="0,0,0,20" Grid.RowSpan="4" Height="18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="35"/>
+        <Slider x:Name="VolumeSlider" Margin="0,0,24,20" Grid.RowSpan="4" Height="18" VerticalAlignment="Bottom" MouseMove="VolumeSlider_MouseMove" PreviewMouseLeftButtonDown="VolumeSlider_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="VolumeSlider_PreviewMouseLeftButtonUp" HorizontalAlignment="Right" Width="73"/>
         <Button x:Name="BtnNeuePlaylist" Content="Neue Playlist" HorizontalAlignment="Left" VerticalAlignment="Top" Width="87" RenderTransformOrigin="3.053,1.2" Margin="266,21,0,0" Click="BtnNeuePlaylist_Click" Height="24"/>
         <Grid x:Name="InputBox" Visibility="Collapsed">
             <Grid Background="Black" Opacity="0.5"/>
