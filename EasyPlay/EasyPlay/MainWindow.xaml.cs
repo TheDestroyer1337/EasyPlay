@@ -472,7 +472,10 @@ namespace EasyPlay
             foreach (Lied l in Biblio.getAllLieder())
             {
                 if (l.getPfad() == pfad)
+                {
                     l.setSpielt(true);
+                    LblLiedName.Content = l.getTitel();
+                }
             }
             Player.Play();
             while (!Player.NaturalDuration.HasTimeSpan)
