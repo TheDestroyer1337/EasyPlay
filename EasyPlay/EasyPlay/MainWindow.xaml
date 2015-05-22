@@ -39,7 +39,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView Name="ListViewPlaylists" Margin="0,47,0,15">
+        <ListView Name="ListViewPlaylists" Margin="0,47,0,15" MouseDoubleClick="ListViewPlaylists_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="Auto"></GridViewColumn>
