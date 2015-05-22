@@ -119,7 +119,11 @@ namespace EasyPlay
                         next = null;
                     }
                     if (l.getSpielt())
+                    {
                         next = l;
+                        l.setSpielt(false);
+                        Wartelist.Gespielt(l);
+                    }
                 }
             }
         }
