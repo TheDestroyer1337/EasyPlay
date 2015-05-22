@@ -59,6 +59,7 @@ namespace EasyPlay
             Player = new MediaPlayer();
             BtnPlay.Visibility = Visibility.Visible;
             BtnPause.Visibility = Visibility.Hidden;
+            BtnNeuePlaylist.Visibility = Visibility.Hidden;
 
             ListViewTitel.Visibility = Visibility.Visible;
             ListViewPlaylists.Visibility = Visibility.Hidden;
@@ -71,50 +72,47 @@ namespace EasyPlay
 
         private void TitelButton_Clicked(object sender, RoutedEventArgs e)
         {
-            System.Windows.MessageBox.Show("Titel button is clicked.");
             ListViewTitel.Visibility = Visibility.Visible;
             ListViewPlaylists.Visibility = Visibility.Hidden;
             ListViewAlben.Visibility = Visibility.Hidden;
             ListViewInterpreten.Visibility = Visibility.Hidden;
-
+            BtnNeuePlaylist.Visibility = Visibility.Hidden;
         }
 
         private void PlaylistsButton_Clicked(object sender, RoutedEventArgs e)
         {
-
-            System.Windows.MessageBox.Show("Playlists button is clicked.");
             ListViewTitel.Visibility = Visibility.Hidden;
             ListViewPlaylists.Visibility = Visibility.Visible;
             ListViewAlben.Visibility = Visibility.Hidden;
             ListViewInterpreten.Visibility = Visibility.Hidden;
+            BtnNeuePlaylist.Visibility = Visibility.Visible;
         }
 
         private void AlbenButton_Clicked(object sender, RoutedEventArgs e)
         {
-
-            System.Windows.MessageBox.Show("Alben button is clicked.");
             ListViewTitel.Visibility = Visibility.Hidden;
             ListViewPlaylists.Visibility = Visibility.Hidden;
             ListViewAlben.Visibility = Visibility.Visible;
             ListViewInterpreten.Visibility = Visibility.Hidden;
+            BtnNeuePlaylist.Visibility = Visibility.Hidden;
         }
 
         private void InterpretenButton_Clicked(object sender, RoutedEventArgs e)
         {
-            System.Windows.MessageBox.Show("Interpreten button is clicked.");
             ListViewTitel.Visibility = Visibility.Hidden;
             ListViewPlaylists.Visibility = Visibility.Hidden;
             ListViewAlben.Visibility = Visibility.Hidden;
             ListViewInterpreten.Visibility = Visibility.Visible;
+            BtnNeuePlaylist.Visibility = Visibility.Hidden;
         }
 
         private void WartelisteButton_Clicked(object sender, RoutedEventArgs e)
         {
-            System.Windows.MessageBox.Show("Warteliste button is clicked.");
             ListViewTitel.Visibility = Visibility.Visible;
             ListViewPlaylists.Visibility = Visibility.Hidden;
             ListViewAlben.Visibility = Visibility.Hidden;
             ListViewInterpreten.Visibility = Visibility.Hidden;
+            BtnNeuePlaylist.Visibility = Visibility.Hidden;
         }
 
         private void Beenden_Click(object sender, RoutedEventArgs e)
