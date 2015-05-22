@@ -27,5 +27,10 @@ namespace EasyPlay
                 liedLoeschen(l);
             }
         }
+
+        public string getName()
+        {
+            return Name;
+        }
     }
 }
