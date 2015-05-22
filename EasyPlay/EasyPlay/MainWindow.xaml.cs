@@ -71,11 +71,18 @@ namespace EasyPlay
 
             Playlists = new List<Playlist>();
             Player = new MediaPlayer();
-            
+            Timer = new DispatcherTimer();
+            Timer.Interval = new TimeSpan(0, 0, 1);
+            Timer.Tick += new EventHandler(PlayTime_Tick);
             Wartelist = new Warteliste(null);
             Player = new MediaPlayer();
             this.load();
             this.displayData(MyType.Titel);
+        }
+
+        private void PlayTime_Tick(object sender, EventArgs e)
+        {
+            LiedSlider.Value += 1;
         }
 
         private void TitelButton_Clicked(object sender, RoutedEventArgs e)
@@ -350,6 +357,43 @@ namespace EasyPlay
         private void FrmMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             save();
+        }
+
+        private void ListViewTitel_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            displayTitel item = new displayTitel();
+            item = (displayTitel)ListViewTitel.SelectedItem;
+            Player.Open(new Uri(item.Pfad));
+            Player.Play();
+            while (!Player.NaturalDuration.HasTimeSpan)
+            {
+
+            }
+            Duration d = Player.NaturalDuration;
+            string Splittit = d.ToString();
+            string[] splitD = Splittit.Split(new char[] { ':', '.' });
+            int std = Convert.ToInt16(splitD[0]);
+            int min = Convert.ToInt16(splitD[1]);
+            int sec = Convert.ToInt16(splitD[2]);
+            std = std * 3600;
+            min = min * 60;
+            sec += min + std;
+            LiedSlider.Maximum = sec;
+            Timer.Start();
+            if (Pause != new TimeSpan(0))
+            {
+                Player.Position = Pause;
+                Pause = new TimeSpan(0);
+            }
+            BtnPlay.Visibility = Visibility.Hidden;
+            BtnPause.Visibility = Visibility.Visible;
+        }
+
+        private void LiedSlider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            int value = Convert.ToInt16(LiedSlider.Value);
+            TimeSpan time = new TimeSpan(0, 0, value);
+            Player.Position = time;
         }
     }
 }

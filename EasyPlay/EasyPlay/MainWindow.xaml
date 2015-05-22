@@ -1,7 +1,7 @@
 ﻿<Window x:Name="FrmMain" x:Class="EasyPlay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="EasyPlay" Height="350" Width="525">
+        Title="EasyPlay" Height="350" Width="525" Closing="FrmMain_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="291*"/>
@@ -28,7 +28,7 @@
             <Button Content="Interpreten" Click="InterpretenButton_Clicked"></Button>
             <Button Content="Warteliste" Click="WartelisteButton_Clicked"></Button>
         </ToolBar>
-        <ListView Name="ListViewTitel" Margin="0,47,0,15" SelectionChanged="ListViewTitel_SelectionChanged">
+        <ListView Name="ListViewTitel" Margin="0,47,0,15" SelectionChanged="ListViewTitel_SelectionChanged" MouseDoubleClick="ListViewTitel_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Titel" DisplayMemberBinding="{Binding Titel}" Width="Auto"></GridViewColumn>
@@ -64,7 +64,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Slider x:Name="LiedSlider" Margin="52,0,40,10" Grid.RowSpan="4" Height="28" VerticalAlignment="Bottom"/>
+        <Slider x:Name="LiedSlider" Margin="52,0,40,10" Grid.RowSpan="4" Height="28" VerticalAlignment="Bottom" PreviewMouseLeftButtonUp="LiedSlider_PreviewMouseLeftButtonUp"/>
         <Button x:Name="BtnPlay" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="27" Margin="10,0,0,14" Height="24" BorderThickness="0" Click="BtnPlay_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Grid.RowSpan="4" >
             <Button.Background>
                 <ImageBrush Stretch="Uniform" ImageSource="Resources/play.png"/>
