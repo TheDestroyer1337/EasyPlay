@@ -12,12 +12,12 @@
         <Menu x:Name="Menu" Margin="0,0,0,0" Height="20" VerticalAlignment="Top">
             <MenuItem x:Name="MenuDatei" Header="_Datei" >
                 <MenuItem x:Name="MenuAddLieder" Header="_Lieder hinzufügen" Click="MenuAddLieder_Click" />
-                <MenuItem x:Name="MenuAddOrdner" Header="_Ordner hinzufügen" />
+                <MenuItem x:Name="MenuAddOrdner" Header="_Ordner hinzufügen" Click="MenuAddOrdner_Click" />
                 <MenuItem x:Name="MenuBeenden" Header="_Beenden" Click="Beenden_Click" />
             </MenuItem>
             <MenuItem x:Name="MenuOptionen" Header="_Optionen" >
                 <MenuItem x:Name="MenuHilfe" Header="_Hilfe" />
-                <MenuItem x:Name="MenuWartelisteLeeren" Header="_Warteliste leeren" />
+                <MenuItem x:Name="MenuWartelisteLeeren" Header="_Warteliste leeren" Click="MenuWartelisteLeeren_Click" />
                 <MenuItem x:Name="MenuBestenlisteGenereieren" Header="_Bestenliste generieren" />
             </MenuItem>
         </Menu>

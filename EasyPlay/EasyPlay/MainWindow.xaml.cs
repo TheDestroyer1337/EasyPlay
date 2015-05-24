@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-//using Microsoft.Win32;
+using Microsoft.Win32;
 using System.Windows.Forms;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -53,10 +53,14 @@ namespace EasyPlay
                 FolderBrowserDialog ofd = new FolderBrowserDialog();
                 ofd.Description = "Ordner öffnen";
                 ofd.ShowNewFolderButton = false;
-                bool result = false;
-                result = Convert.ToBoolean(ofd.ShowDialog());
-                Biblio = new Bibliothek(ofd.SelectedPath);
-                
+                ofd.ShowDialog();
+                if (ofd.SelectedPath != "")
+                    Biblio = new Bibliothek(ofd.SelectedPath);
+                else 
+                {
+                    this.Close();
+                    return;
+                }
             }
 
             BtnPlay.Visibility = Visibility.Visible;
@@ -99,20 +103,21 @@ namespace EasyPlay
                     if (next != null && next != l)
                     {
                         play(l.getPfad());
-                        next = null;
+                        return;
                     }
                     else if (l.getWiederholen())
                     {
                         play(l.getPfad());
-                        next = null;
+                        return;
                     }
-                    if (l.getSpielt() && !l.getWiederholen())
+                    if (l.getSpielt() && !l.getWiederholen() && next == null)
                     {
                         next = l;
                         Timer.Stop();
                         l.setSpielt(false);
                     }
                 }
+                next = null;
             }
             else if (Wartelist.getSpielend())
             {
@@ -168,8 +173,6 @@ namespace EasyPlay
             if (LiedSlider.Value == LiedSlider.Maximum)
             {
                 Player_MediaEnded();
-                LiedSlider.Value = 0;
-                
             }
         }
 
@@ -424,13 +427,16 @@ namespace EasyPlay
 
         private void save()
         {
-            string saveFile = AppDomain.CurrentDomain.BaseDirectory + "easyplay.bin";
-            FileStream fs = new FileStream(saveFile, FileMode.Create);
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(fs, Biblio);
-            formatter.Serialize(fs, Playlists);
-            formatter.Serialize(fs, Wartelist);
-            fs.Close();
+            if (Biblio != null && Playlists != null && Wartelist != null) 
+            {
+                string saveFile = AppDomain.CurrentDomain.BaseDirectory + "easyplay.bin";
+                FileStream fs = new FileStream(saveFile, FileMode.Create);
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(fs, Biblio);
+                formatter.Serialize(fs, Playlists);
+                formatter.Serialize(fs, Wartelist);
+                fs.Close();
+            }
         }
 
         private void load()
@@ -626,7 +632,7 @@ namespace EasyPlay
 
         private void MenuAddLieder_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
+            System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
             ofd.Filter = "MP3 Dateien (*.mp3)|*.mp3";
             ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
             ofd.Title = "Lied öffenen";
@@ -637,6 +643,24 @@ namespace EasyPlay
                 Biblio.addLied(ofd.FileName);
                 displayData(MyType.Titel);
             }
+        }
+
+        private void MenuAddOrdner_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog ofd = new FolderBrowserDialog();
+            ofd.Description = "Ordner öffnen";
+            ofd.ShowNewFolderButton = false;
+            bool result = false;
+            result = Convert.ToBoolean(ofd.ShowDialog());
+            if (ofd.SelectedPath != "") 
+                Biblio.addOrdner(ofd.SelectedPath);
+            displayData(MyType.Titel);
+        }
+
+        private void MenuWartelisteLeeren_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Lied l in Biblio.getAllLieder())
+                l.setWartend(false);
         }
     }
 }
