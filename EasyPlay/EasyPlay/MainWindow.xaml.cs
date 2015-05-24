@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -326,22 +327,68 @@ namespace EasyPlay
                 case MyType.Titel:
                     ListViewTitel.Items.Clear();
                     foreach (Lied l in Biblio.getAllLieder())
-                    {
                         ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge(), Pfad = l.getPfad() });
-                    }
                     break;
                 case MyType.Album:
                     ListViewAlben.Items.Clear();
+                    List<string> alben = new List<string>();
+                    Hashtable anzAlben = new Hashtable();
+                    bool exist = false;
+                    int count = 0;
+                    foreach (Lied l in Biblio.getAllLieder())
+                    {
+                        foreach (string s in alben) 
+                        {
+                            if (s.Equals(l.getAlbum()))
+                                exist = true;
+                        }
+                        if(!exist)
+                            alben.Add(l.getAlbum());
+                        exist = false;
+                    }
+                    foreach (string s in alben)
+                    {
+                        count = 0;
+                        foreach (Lied l in Biblio.getAllLieder())
+                        {
+                            if(l.getAlbum().Equals(s))
+                                count++;
+                        }
+                        ListViewAlben.Items.Add(new displayAblum { Album = s, AnzLieder = count, Interpret = "" });
+                    }
                     break;
                 case MyType.Interpret:
                     ListViewInterpreten.Items.Clear();
+                    List<string> interpreten = new List<string>();
+                    Hashtable anzInterpreten = new Hashtable();
+                    bool existInt = false;
+                    int countInt = 0;
+                    foreach (Lied l in Biblio.getAllLieder())
+                    {
+                        foreach (string s in interpreten) 
+                        {
+                            if (s.Equals(l.getInterpret()))
+                                existInt = true;
+                        }
+                        if(!existInt)
+                            interpreten.Add(l.getInterpret());
+                        exist = false;
+                    }
+                    foreach (string s in interpreten)
+                    {
+                        countInt = 0;
+                        foreach (Lied l in Biblio.getAllLieder())
+                        {
+                            if(l.getInterpret().Equals(s))
+                                countInt++;
+                        }
+                        ListViewInterpreten.Items.Add(new displayInterpret { AnzLieder = countInt, Interpret = s });
+                    }
                     break;
                 case MyType.Playlists:
                     ListViewPlaylists.Items.Clear();
                     foreach (Playlist p in Playlists)
-                    {
                         ListViewPlaylists.Items.Add(new displayPlaylist { Name = p.getName(), AnzLieder = p.getAllLieder().Count });
-                    }
                     break;
                 case MyType.Warteliste:
                     ListViewTitel.Items.Clear();
