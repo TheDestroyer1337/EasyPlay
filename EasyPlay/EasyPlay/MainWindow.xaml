@@ -56,7 +56,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView Name="ListViewInterpreten" Margin="0,47,0,15">
+        <ListView Name="ListViewInterpreten" Margin="0,47,0,15" MouseDoubleClick="ListViewInterpreten_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Interpret" DisplayMemberBinding="{Binding Interpret}" Width="Auto"></GridViewColumn>

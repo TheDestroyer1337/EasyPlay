@@ -333,8 +333,6 @@ namespace EasyPlay
                     ListViewAlben.Items.Clear();
                     List<string> alben = new List<string>();
                     Hashtable aInterpret = new Hashtable();
-                    Hashtable anzAlben = new Hashtable();
-                    bool exist = false;
                     int count = 0;
                     foreach (Lied l in Biblio.getAllLieder())
                     {
@@ -356,7 +354,7 @@ namespace EasyPlay
                             if(de.Key.Equals(l.getAlbum()) && de.Value.Equals(l.getInterpret()))
                                 count++;
                         }
-                        ListViewAlben.Items.Add(new displayAblum { Album = de.Key.ToString(), AnzLieder = count, Interpret = de.Value.ToString() });
+                        ListViewAlben.Items.Add(new displayAlbum { Album = de.Key.ToString(), AnzLieder = count, Interpret = de.Value.ToString() });
                     }
                     break;
                 case MyType.Interpret:
@@ -374,7 +372,7 @@ namespace EasyPlay
                         }
                         if(!existInt)
                             interpreten.Add(l.getInterpret());
-                        exist = false;
+                        existInt = false;
                     }
                     foreach (string s in interpreten)
                     {
@@ -434,7 +432,7 @@ namespace EasyPlay
             public int AnzLieder { get; set; }
         }
 
-        internal class displayAblum
+        internal class displayAlbum
         {
             public string Album { get; set; }
             public string Interpret { get; set; }
@@ -710,6 +708,27 @@ namespace EasyPlay
         {
             foreach (Lied l in Biblio.getAllLieder())
                 l.setWartend(false);
+        }
+
+        private void ListViewInterpreten_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            displayInterpret item = new displayInterpret();
+            item = (displayInterpret)ListViewInterpreten.SelectedItem;
+            ListViewTitel.Visibility = Visibility.Visible;
+            ListViewPlaylists.Visibility = Visibility.Hidden;
+            ListViewAlben.Visibility = Visibility.Hidden;
+            ListViewInterpreten.Visibility = Visibility.Hidden;
+            BtnNeuePlaylist.Visibility = Visibility.Hidden;
+            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
+            BtnZuWarteliste.Visibility = Visibility.Visible;
+            BtnPlaylistWiederholen.Visibility = Visibility.Hidden;
+            ListViewTitel.Items.Clear();
+            foreach (Lied l in Biblio.getAllLieder()) 
+            {
+                if (l.getInterpret().Equals(item.Interpret))
+                    ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge(), Pfad = l.getPfad() });
+                
+            }
         }
     }
 }
