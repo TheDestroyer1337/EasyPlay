@@ -332,6 +332,7 @@ namespace EasyPlay
                 case MyType.Album:
                     ListViewAlben.Items.Clear();
                     List<string> alben = new List<string>();
+                    List<string> aInterpret = new List<string>();
                     Hashtable anzAlben = new Hashtable();
                     bool exist = false;
                     int count = 0;
@@ -340,10 +341,18 @@ namespace EasyPlay
                         foreach (string s in alben) 
                         {
                             if (s.Equals(l.getAlbum()))
-                                exist = true;
+                            {
+                                foreach (string st in aInterpret) {
+                                    if(st.Equals(l.getInterpret()))
+                                        exist = true;
+                                }
+                            }
                         }
-                        if(!exist)
+                        if (!exist) 
+                        {
                             alben.Add(l.getAlbum());
+                            aInterpret.Add(l.getInterpret());
+                        }
                         exist = false;
                     }
                     foreach (string s in alben)
