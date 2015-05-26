@@ -332,38 +332,31 @@ namespace EasyPlay
                 case MyType.Album:
                     ListViewAlben.Items.Clear();
                     List<string> alben = new List<string>();
-                    List<string> aInterpret = new List<string>();
+                    Hashtable aInterpret = new Hashtable();
                     Hashtable anzAlben = new Hashtable();
                     bool exist = false;
                     int count = 0;
                     foreach (Lied l in Biblio.getAllLieder())
                     {
-                        foreach (string s in alben) 
-                        {
-                            if (s.Equals(l.getAlbum()))
-                            {
-                                foreach (string st in aInterpret) {
-                                    if(st.Equals(l.getInterpret()))
-                                        exist = true;
-                                }
-                            }
-                        }
-                        if (!exist) 
+                        try 
                         {
                             alben.Add(l.getAlbum());
-                            aInterpret.Add(l.getInterpret());
+                            aInterpret.Add(l.getAlbum(), l.getInterpret());
                         }
-                        exist = false;
+                        catch 
+                        {
+
+                        }
                     }
-                    foreach (string s in alben)
+                    foreach (DictionaryEntry de in aInterpret)
                     {
                         count = 0;
                         foreach (Lied l in Biblio.getAllLieder())
                         {
-                            if(l.getAlbum().Equals(s))
+                            if(de.Key.Equals(l.getAlbum()) && de.Value.Equals(l.getInterpret()))
                                 count++;
                         }
-                        ListViewAlben.Items.Add(new displayAblum { Album = s, AnzLieder = count, Interpret = "" });
+                        ListViewAlben.Items.Add(new displayAblum { Album = de.Key.ToString(), AnzLieder = count, Interpret = de.Value.ToString() });
                     }
                     break;
                 case MyType.Interpret:
