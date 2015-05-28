@@ -34,7 +34,7 @@ namespace EasyPlay
             lbTitle.Text = "EasyPlay Hilfe";
             txbHelp.Text = "Hier finden Sie alles was Sie über den MP3-Player EasyPlay wissen müssen";
         }
-
+        #region Help
         private void lbHelp_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var item = lbHelp.SelectedItem;
@@ -89,5 +89,6 @@ namespace EasyPlay
                     break;
             }
         }
+        #endregion Help
     }
 }
