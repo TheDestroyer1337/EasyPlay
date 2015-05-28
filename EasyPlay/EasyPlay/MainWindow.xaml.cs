@@ -699,7 +699,6 @@ namespace EasyPlay
         {
             displayTitel item = new displayTitel();
             item = (displayTitel)ListViewTitel.SelectedItem;
-            play(item.Pfad);
             foreach (Lied l in Biblio.getAllLieder())
             {
                 if (l.getWiederholen())
