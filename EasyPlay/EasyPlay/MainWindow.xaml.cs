@@ -37,6 +37,7 @@ namespace EasyPlay
         private Playlist Playlist;
         private bool IsPlaylist;
         private bool IsInterpret;
+        private bool IsAlbum;
         private bool mouseCaptured;
         private double Volume;
         
@@ -92,8 +93,15 @@ namespace EasyPlay
             Wartelist = new Warteliste(null);
             Player = new MediaPlayer();
             IsInterpret = false;
+            IsAlbum = false;
             this.load();
             this.displayData(MyType.Titel);
+            Wartelist.setSpielend(false);
+            foreach (Playlist p in Playlists)
+            {
+                p.setSpielend(false);
+            }
+            Biblio.setSpielend(true);
         }
 
         private void Player_MediaEnded()
@@ -103,9 +111,28 @@ namespace EasyPlay
                 Lied next = null;
                 foreach (Lied l in Biblio.getAllLieder())
                 {
-                    if (!IsInterpret)
+                    if (IsInterpret)
                     {
-                        if (next != null && next != l)
+                        if (next != null && next != l && l.getInterpret().Equals(next.getInterpret()))
+                        {
+                            play(l.getPfad());
+                            return;
+                        }
+                        else if (l.getWiederholen())
+                        {
+                            play(l.getPfad());
+                            return;
+                        }
+                        if (l.getSpielt() && !l.getWiederholen() && next == null)
+                        {
+                            next = l;
+                            Timer.Stop();
+                            l.setSpielt(false);
+                        }
+                    }
+                    else if (IsAlbum)
+                    {
+                        if (next != null && next != l && l.getInterpret().Equals(next.getInterpret()) && l.getAlbum().Equals(next.getAlbum()))
                         {
                             play(l.getPfad());
                             return;
@@ -124,7 +151,7 @@ namespace EasyPlay
                     }
                     else
                     {
-                        if (next != null && next != l && l.getInterpret().Equals(next.getInterpret()))
+                        if (next != null && next != l)
                         {
                             play(l.getPfad());
                             return;
@@ -219,6 +246,7 @@ namespace EasyPlay
             }
             Biblio.setSpielend(true);
             IsInterpret = false;
+            IsAlbum = false;
         }
 
         private void PlaylistsButton_Clicked(object sender, RoutedEventArgs e)
@@ -232,6 +260,7 @@ namespace EasyPlay
             BtnZuWarteliste.Visibility = Visibility.Hidden;
             displayData(MyType.Playlists);
             IsInterpret = false;
+            IsAlbum = false;
         }
 
         private void AlbenButton_Clicked(object sender, RoutedEventArgs e)
@@ -251,6 +280,7 @@ namespace EasyPlay
             }
             Biblio.setSpielend(true);
             IsInterpret = false;
+            IsAlbum = true;
         }
 
         private void InterpretenButton_Clicked(object sender, RoutedEventArgs e)
@@ -270,6 +300,7 @@ namespace EasyPlay
             }
             Biblio.setSpielend(true);
             IsInterpret = true;
+            IsAlbum = false;
         }
 
         private void WartelisteButton_Clicked(object sender, RoutedEventArgs e)
@@ -290,6 +321,7 @@ namespace EasyPlay
             }
             Biblio.setSpielend(false);
             IsInterpret = false;
+            IsAlbum = false;
         }
 
         private void Beenden_Click(object sender, RoutedEventArgs e)
@@ -757,6 +789,26 @@ namespace EasyPlay
                 if (l.getInterpret().Equals(item.Interpret))
                     ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge(), Pfad = l.getPfad() });
                 
+            }
+        }
+
+        private void ListViewAlben_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            displayAlbum item = new displayAlbum();
+            item = (displayAlbum)ListViewAlben.SelectedItem;
+            ListViewTitel.Visibility = Visibility.Visible;
+            ListViewPlaylists.Visibility = Visibility.Hidden;
+            ListViewAlben.Visibility = Visibility.Hidden;
+            ListViewInterpreten.Visibility = Visibility.Hidden;
+            BtnNeuePlaylist.Visibility = Visibility.Hidden;
+            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
+            BtnZuWarteliste.Visibility = Visibility.Visible;
+            BtnPlaylistWiederholen.Visibility = Visibility.Hidden;
+            ListViewTitel.Items.Clear();
+            foreach (Lied l in Biblio.getAllLieder())
+            {
+                if (l.getInterpret().Equals(item.Interpret) && l.getAlbum().Equals(item.Album))
+                    ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge(), Pfad = l.getPfad() });
             }
         }
     }

@@ -47,7 +47,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView Name="ListViewAlben" Margin="0,47,0,15">
+        <ListView Name="ListViewAlben" Margin="0,47,0,15" MouseDoubleClick="ListViewAlben_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Album" DisplayMemberBinding="{Binding Album}" Width="Auto"></GridViewColumn>
