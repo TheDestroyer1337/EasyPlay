@@ -201,17 +201,55 @@ namespace EasyPlay
                     if (p.getSpielend())
                     {
                         Lied next = null;
-                        foreach (Lied l in p.getAllLieder())
+                        if (p.getWiederholen())
                         {
-                            if (next != null)
+                            int maxLieder = p.getAllLieder().Count;
+                            int count = 1;
+
+                            do
                             {
-                                play(l.getPfad());
-                                next = null;
+                                foreach (Lied l in p.getAllLieder())
+                                {
+                                    if (next != null && next != l)
+                                    {
+                                        play(l.getPfad());
+                                        return;
+                                    }
+                                    else if (l.getWiederholen())
+                                    {
+                                        play(l.getPfad());
+                                        return;
+                                    }
+                                    if (l.getSpielt() && !l.getWiederholen() && next == null)
+                                    {
+                                        next = l;
+                                        Timer.Stop();
+                                        l.setSpielt(false);
+                                    }
+                                }
                             }
-                            if (l.getSpielt())
+                            while (count != maxLieder);
+                        }
+                        else
+                        {
+                            foreach (Lied l in p.getAllLieder())
                             {
-                                next = l;
-                                l.setSpielt(false);
+                                if (next != null && next != l)
+                                {
+                                    play(l.getPfad());
+                                    return;
+                                }
+                                else if (l.getWiederholen())
+                                {
+                                    play(l.getPfad());
+                                    return;
+                                }
+                                if (l.getSpielt() && !l.getWiederholen() && next == null)
+                                {
+                                    next = l;
+                                    Timer.Stop();
+                                    l.setSpielt(false);
+                                }
                             }
                         }
                     }
@@ -562,6 +600,10 @@ namespace EasyPlay
                 {
                     l.setWiederholen(false);
                 }
+                foreach (Playlist p in Playlists)
+                {
+                    p.setWiederholen(false);
+                }
             }
         }
         private void BtnPlaylistLoeschen_Click(object sender, RoutedEventArgs e)
@@ -613,10 +655,21 @@ namespace EasyPlay
         private void play(string pfad)
         {
             Player.Open(new Uri(pfad));
+            bool wiederholung = false;
+            foreach (Lied l in Biblio.getAllLieder())
+            {
+                if (l.getWiederholen())
+                {
+                    wiederholung = true;
+                    l.setWiederholen(false);
+                }
+            }
+
             foreach (Lied l in Biblio.getAllLieder())
             {
                 if (l.getPfad() == pfad)
                 {
+                    l.setWiederholen(wiederholung);
                     l.setSpielt(true);
                     LblLiedName.Content = l.getTitel();
                 }
@@ -697,18 +750,16 @@ namespace EasyPlay
 
         private void BtnLiedWiederholen_Click(object sender, RoutedEventArgs e)
         {
-            displayTitel item = new displayTitel();
-            item = (displayTitel)ListViewTitel.SelectedItem;
             foreach (Lied l in Biblio.getAllLieder())
             {
-                if (l.getWiederholen())
+                if (l.getSpielt())
                 {
-                    BtnLiedWiederholen.BorderBrush = new SolidColorBrush(Colors.White); 
-                    l.setWiederholen(false);
-                }
-                else
-                {
-                    if (l.getPfad() == item.Pfad)
+                    if (l.getWiederholen())
+                    {
+                        BtnLiedWiederholen.BorderBrush = new SolidColorBrush(Colors.White);
+                        l.setWiederholen(false);
+                    }
+                    else
                     {
                         BtnLiedWiederholen.BorderBrush = new SolidColorBrush(Colors.Orange);
                         l.setWiederholen(true);
