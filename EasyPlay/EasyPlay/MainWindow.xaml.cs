@@ -297,6 +297,7 @@ namespace EasyPlay
 
         private void BtnPause_Click(object sender, RoutedEventArgs e)
         {
+            Pause = Player.Position;
             Player.Pause();
             Timer.Stop();
             BtnPause.Visibility = Visibility.Hidden;
@@ -305,10 +306,26 @@ namespace EasyPlay
 
         private void BtnPlay_Click(object sender, RoutedEventArgs e)
         {
-            Player.Play();
-            Timer.Start();
-            BtnPlay.Visibility = Visibility.Hidden;
-            BtnPause.Visibility = Visibility.Visible;
+            bool liedSpielt = false;
+            foreach (Lied l in Biblio.getAllLieder())
+            {
+                if (l.getSpielt())
+                {
+                    play(l.getPfad());
+                    Pause = new TimeSpan(0);
+                    return;
+                }
+            }
+
+            displayTitel item = new displayTitel();
+            item = (displayTitel)ListViewTitel.SelectedItem;
+            if (item != null)
+            {
+                play(item.Pfad);
+                Pause = new TimeSpan(0);
+                BtnPlay.Visibility = Visibility.Hidden;
+                BtnPause.Visibility = Visibility.Visible;
+            }
         }
 
         private void ListViewTitel_MouseDoubleClick(object sender, MouseButtonEventArgs e)
