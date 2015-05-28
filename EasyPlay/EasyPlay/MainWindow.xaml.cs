@@ -953,5 +953,11 @@ namespace EasyPlay
             return Bestenliste;
         }
         #endregion Bestenliste
+        
+        private void MenuHilfe_Click(object sender, RoutedEventArgs e)
+        {
+            Help hilfe = new Help();
+            hilfe.Show();
+        }
     }
 }

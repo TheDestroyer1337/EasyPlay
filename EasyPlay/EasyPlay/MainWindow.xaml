@@ -66,7 +66,7 @@
                 <MenuItem x:Name="MenuBeenden" Header="_Beenden" Click="Beenden_Click" />
             </MenuItem>
             <MenuItem x:Name="MenuOptionen" Header="_Optionen" >
-                <MenuItem x:Name="MenuHilfe" Header="_Hilfe" />
+                <MenuItem x:Name="MenuHilfe" Header="_Hilfe" Click="MenuHilfe_Click" />
                 <MenuItem x:Name="MenuWartelisteLeeren" Header="_Warteliste leeren" Click="MenuWartelisteLeeren_Click" />
                 <MenuItem x:Name="MenuBestenlisteGenereieren" Header="_Bestenliste generieren" />
             </MenuItem>
