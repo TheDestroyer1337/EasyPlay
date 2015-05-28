@@ -756,12 +756,14 @@ namespace EasyPlay
                 {
                     if (l.getWiederholen())
                     {
-                        BtnLiedWiederholen.BorderBrush = new SolidColorBrush(Colors.White);
+                        Style style = this.FindResource("StyleButtonNormal") as Style;
+                        BtnLiedWiederholen.Style = style;
                         l.setWiederholen(false);
                     }
                     else
                     {
-                        BtnLiedWiederholen.BorderBrush = new SolidColorBrush(Colors.Orange);
+                        Style style = this.FindResource("StyleButtonFarbig") as Style;
+                        BtnLiedWiederholen.Style = style;
                         l.setWiederholen(true);
                     }
                 }
@@ -776,12 +778,14 @@ namespace EasyPlay
                 {
                     if (p.getWiederholen())
                     {
-                        BtnPlaylistWiederholen.BorderBrush = new SolidColorBrush(Colors.White);
+                        Style style = this.FindResource("StyleButtonNormal") as Style;
+                        BtnPlaylistWiederholen.Style = style;
                         p.setWiederholen(false);
                     }
                     else
                     {
-                        BtnPlaylistWiederholen.BorderBrush = new SolidColorBrush(Colors.Orange);
+                        Style style = this.FindResource("StyleButtonFarbig") as Style;
+                        BtnPlaylistWiederholen.Style = style;
                         p.setWiederholen(true);
                     }
                 }
