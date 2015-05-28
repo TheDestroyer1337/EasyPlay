@@ -204,13 +204,13 @@ namespace EasyPlay
                         if (p.getWiederholen())
                         {
                             int maxLieder = p.getAllLieder().Count;
-                            int count = 1;
+                            int count = 0;
 
                             do
                             {
                                 foreach (Lied l in p.getAllLieder())
                                 {
-                                    if (next != null && next != l)
+                                    if (next != null && next != l || next != null && maxLieder == 1)
                                     {
                                         play(l.getPfad());
                                         return;

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="EasyPlay" MinHeight="371" MinWidth="529" Height="400" Width="550" Closing="FrmMain_Closing">
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="291*"/>
             <RowDefinition/>
@@ -65,11 +66,12 @@
             </ListView.View>
         </ListView>
         <Slider x:Name="LiedSlider" Margin="52,0,102,10" Grid.RowSpan="4" Height="28" VerticalAlignment="Bottom" PreviewMouseLeftButtonUp="LiedSlider_PreviewMouseLeftButtonUp"/>
+
         <Button x:Name="BtnPlay" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="27" Margin="10,0,0,14" Height="24" BorderThickness="0" Click="BtnPlay_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Grid.RowSpan="4" >
             <Button.Background>
-                <ImageBrush Stretch="Uniform" ImageSource="Resources/play.png"/>
-            </Button.Background>
-        </Button>
+                    <ImageBrush Stretch="Uniform" ImageSource="Resources/play.png"/>
+                </Button.Background>
+            </Button>
         <Button x:Name="BtnPause" VerticalAlignment="Bottom" Margin="10,0,0,14" Height="24" BorderThickness="0" Click="BtnPause_Click" Foreground="{x:Null}" BorderBrush="{x:Null}" Grid.RowSpan="4" HorizontalAlignment="Left" Width="27" >
 
             <Button.Background>
