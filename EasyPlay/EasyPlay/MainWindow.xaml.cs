@@ -951,7 +951,7 @@ namespace EasyPlay
             {
                 for(int count2 = 0; count > (lieder.Length - 1); count2++)
                 {
-                    if (lieder[count].getAnzWiedergaben() > lieder[count2].getAnzWiedergaben())
+                    if (lieder[count].getAnzWiedergaben() < lieder[count2].getAnzWiedergaben())
                     {
                         Lied temp = lieder[count];
                         lieder[count] = lieder[count2];
