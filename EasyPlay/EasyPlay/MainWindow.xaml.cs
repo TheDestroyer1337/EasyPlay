@@ -945,36 +945,38 @@ namespace EasyPlay
         #region Bestenliste
         private Playlist CreateBestenliste()
         {
-            int maxAnzWiedergaben = 0;
-            int minAnzWiedergaben = 0;
             Playlist Bestenliste = new Playlist(null, "Bestenliste");
-            foreach (Lied l in Biblio.getAllLieder())
+            Lied[] lieder = Biblio.getAllLieder().ToArray();
+            for (int count = 0; count > (lieder.Length - 1); count++ )
             {
-//                if l.getAnzWiedergaben() = 0)
-//                    continue;
-
-                if (Bestenliste.getAllLieder().Count() >= 25)
+                for(int count2 = 0; count > (lieder.Length - 1); count2++)
+                {
+                    if (lieder[count].getAnzWiedergaben() > lieder[count2].getAnzWiedergaben())
+                    {
+                        Lied temp = lieder[count];
+                        lieder[count] = lieder[count2];
+                        lieder[count2] = temp;
+                    }
+                }
+            }
+            int countBest = 0;
+            foreach (Lied l in lieder)
+            {
+                if (countBest > 25)
                     break;
-
-                if (l.getAnzWiedergaben() >= maxAnzWiedergaben)
-                {
-                    maxAnzWiedergaben = l.getAnzWiedergaben();
-                    Bestenliste.addLied(l);
-                }
-                else if (l.getAnzWiedergaben() >= minAnzWiedergaben)
-                {
-                    minAnzWiedergaben = l.getAnzWiedergaben();
-                    Bestenliste.addLied(l);
-                }
+                Bestenliste.addLied(l);
+                countBest++;
             }
             return Bestenliste;
         }
         #endregion Bestenliste
-        
+
+        #region Hilfe
         private void MenuHilfe_Click(object sender, RoutedEventArgs e)
         {
             Help hilfe = new Help();
             hilfe.Show();
         }
+        #endregion Hilfe
     }
 }
