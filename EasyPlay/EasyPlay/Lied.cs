@@ -23,6 +23,7 @@ namespace EasyPlay
         private string Album;
         private bool Wiederholen;
         private bool Wartend;
+        private int AnzWiedergaben;
 
         //Konstruktor
         public Lied(string pfad)
@@ -129,6 +130,16 @@ namespace EasyPlay
         public string getAlbum()
         {
             return Album;
+        }
+
+        public void setAnzWiedergaben(int value)
+        {
+            AnzWiedergaben = value;
+        }
+
+        public int getAnzWiedergaben()
+        {
+            return AnzWiedergaben;
         }
     }
 }

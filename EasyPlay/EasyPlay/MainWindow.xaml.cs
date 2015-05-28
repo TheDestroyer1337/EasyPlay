@@ -406,8 +406,6 @@ namespace EasyPlay
             }
         }
 
-        
-
         internal class displayTitel
         {
             public string Titel { get; set; }
@@ -476,15 +474,30 @@ namespace EasyPlay
         }
         private void WeiterButton_Click(object sender, RoutedEventArgs e)
         {
-            Playlist = new Playlist(null, InputTextBox.Text);
-            InputBox.Visibility = Visibility.Collapsed;
-            BtnNeuePlaylist.Visibility = Visibility.Hidden;
-            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
-            BtnPlaylistSpeichern.Visibility = Visibility.Visible;
-            ListViewPlaylists.Visibility = Visibility.Hidden;
-            ListViewTitel.Visibility = Visibility.Visible;
-            BtnZuWarteliste.Visibility = Visibility.Hidden;
-            IsPlaylist = true;
+            bool vorhanden = false;
+            foreach (Playlist p in Playlists)
+            {
+                if (p.getName() == InputTextBox.Text)
+                {
+                    vorhanden = true;
+                    break;
+                }
+            }
+
+            if (!vorhanden)
+            {
+                Playlist = new Playlist(null, InputTextBox.Text);
+                InputBox.Visibility = Visibility.Collapsed;
+                BtnNeuePlaylist.Visibility = Visibility.Hidden;
+                BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
+                BtnPlaylistSpeichern.Visibility = Visibility.Visible;
+                ListViewPlaylists.Visibility = Visibility.Hidden;
+                ListViewTitel.Visibility = Visibility.Visible;
+                BtnZuWarteliste.Visibility = Visibility.Hidden;
+                IsPlaylist = true;
+            }
+            else
+               System.Windows.MessageBox.Show("Playlist mit diesem Namen existiert bereits!");
         }
 
         private void ListViewTitel_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -629,6 +642,21 @@ namespace EasyPlay
                 {
                     p.setWiederholen(false);
                 }
+
+                if (Playlists.Count() > 0)
+                {
+                    foreach (Playlist p in Playlists)
+                    {
+                        if (p.getName() == "Bestenliste")
+                        {
+                            Playlists.Add(CreateBestenliste());
+                            Playlists.Remove(p);
+                            break;
+                        }
+                    }
+                }
+                else
+                    Playlists.Add(CreateBestenliste());
             }
         }
 
@@ -658,6 +686,7 @@ namespace EasyPlay
                 {
                     l.setWiederholen(wiederholung);
                     l.setSpielt(true);
+                    l.setAnzWiedergaben(l.getAnzWiedergaben() + 1);
                     LblLiedName.Content = l.getTitel();
                 }
             }
@@ -895,5 +924,34 @@ namespace EasyPlay
             }
         }
         #endregion Interpret/Album
+
+        #region Bestenliste
+        private Playlist CreateBestenliste()
+        {
+            int maxAnzWiedergaben = 0;
+            int minAnzWiedergaben = 0;
+            Playlist Bestenliste = new Playlist(null, "Bestenliste");
+            foreach (Lied l in Biblio.getAllLieder())
+            {
+//                if l.getAnzWiedergaben() = 0)
+//                    continue;
+
+                if (Bestenliste.getAllLieder().Count() >= 25)
+                    break;
+
+                if (l.getAnzWiedergaben() >= maxAnzWiedergaben)
+                {
+                    maxAnzWiedergaben = l.getAnzWiedergaben();
+                    Bestenliste.addLied(l);
+                }
+                else if (l.getAnzWiedergaben() >= minAnzWiedergaben)
+                {
+                    minAnzWiedergaben = l.getAnzWiedergaben();
+                    Bestenliste.addLied(l);
+                }
+            }
+            return Bestenliste;
+        }
+        #endregion Bestenliste
     }
 }
