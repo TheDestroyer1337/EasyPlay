@@ -895,5 +895,11 @@ namespace EasyPlay
             }
         }
         #endregion Interpret/Album
+
+        private void MenuHilfe_Click(object sender, RoutedEventArgs e)
+        {
+            Help hilfe = new Help();
+            hilfe.Show();
+        }
     }
 }
