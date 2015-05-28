@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region Using
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -18,6 +19,7 @@ using System.Windows.Threading;
 using Microsoft.Win32;
 using System.Windows.Forms;
 using System.Runtime.Serialization.Formatters.Binary;
+#endregion Using
 
 namespace EasyPlay
 {
@@ -26,11 +28,11 @@ namespace EasyPlay
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Definition
         //Klassenvariabeln
         private MediaPlayer Player;
         private List<Playlist> Playlists;
         private Bibliothek Biblio;
-        private Lied AktuelleWiedergabe;
         private Warteliste Wartelist;
         private DispatcherTimer Timer;
         private TimeSpan Pause;
@@ -45,7 +47,9 @@ namespace EasyPlay
         {
             Titel, Interpret, Album, Playlists, Warteliste
         }
+        #endregion Definition
 
+        #region Konstruktor
         public MainWindow()
         {
             InitializeComponent();
@@ -103,7 +107,9 @@ namespace EasyPlay
             }
             Biblio.setSpielend(true);
         }
+        #endregion Konstruktor
 
+        #region AutoPlay
         private void Player_MediaEnded()
         {
             if (Biblio.getSpielend())
@@ -265,7 +271,9 @@ namespace EasyPlay
                 Player_MediaEnded();
             }
         }
+        #endregion AutoPlay
 
+        #region Titel/Wiedergabe
         private void TitelButton_Clicked(object sender, RoutedEventArgs e)
         {
             ListViewTitel.Visibility = Visibility.Visible;
@@ -287,86 +295,6 @@ namespace EasyPlay
             IsAlbum = false;
         }
 
-        private void PlaylistsButton_Clicked(object sender, RoutedEventArgs e)
-        {
-            ListViewTitel.Visibility = Visibility.Hidden;
-            ListViewPlaylists.Visibility = Visibility.Visible;
-            ListViewAlben.Visibility = Visibility.Hidden;
-            ListViewInterpreten.Visibility = Visibility.Hidden;
-            BtnNeuePlaylist.Visibility = Visibility.Visible;
-            BtnPlaylistLoeschen.Visibility = Visibility.Visible;
-            BtnZuWarteliste.Visibility = Visibility.Hidden;
-            displayData(MyType.Playlists);
-            IsInterpret = false;
-            IsAlbum = false;
-        }
-
-        private void AlbenButton_Clicked(object sender, RoutedEventArgs e)
-        {
-            ListViewTitel.Visibility = Visibility.Hidden;
-            ListViewPlaylists.Visibility = Visibility.Hidden;
-            ListViewAlben.Visibility = Visibility.Visible;
-            ListViewInterpreten.Visibility = Visibility.Hidden;
-            BtnNeuePlaylist.Visibility = Visibility.Hidden;
-            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
-            BtnZuWarteliste.Visibility = Visibility.Hidden;
-            displayData(MyType.Album);
-            Wartelist.setSpielend(false);
-            foreach (Playlist p in Playlists)
-            {
-                p.setSpielend(false);
-            }
-            Biblio.setSpielend(true);
-            IsInterpret = false;
-            IsAlbum = true;
-        }
-
-        private void InterpretenButton_Clicked(object sender, RoutedEventArgs e)
-        {
-            ListViewTitel.Visibility = Visibility.Hidden;
-            ListViewPlaylists.Visibility = Visibility.Hidden;
-            ListViewAlben.Visibility = Visibility.Hidden;
-            ListViewInterpreten.Visibility = Visibility.Visible;
-            BtnNeuePlaylist.Visibility = Visibility.Hidden;
-            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
-            BtnZuWarteliste.Visibility = Visibility.Hidden;
-            displayData(MyType.Interpret);
-            Wartelist.setSpielend(false);
-            foreach (Playlist p in Playlists)
-            {
-                p.setSpielend(false);
-            }
-            Biblio.setSpielend(true);
-            IsInterpret = true;
-            IsAlbum = false;
-        }
-
-        private void WartelisteButton_Clicked(object sender, RoutedEventArgs e)
-        {
-            ListViewTitel.Visibility = Visibility.Visible;
-            ListViewPlaylists.Visibility = Visibility.Hidden;
-            ListViewAlben.Visibility = Visibility.Hidden;
-            ListViewInterpreten.Visibility = Visibility.Hidden;
-            BtnNeuePlaylist.Visibility = Visibility.Hidden;
-            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
-            BtnZuWarteliste.Visibility = Visibility.Hidden;
-            BtnPlaylistWiederholen.Visibility = Visibility.Hidden;
-            displayData(MyType.Warteliste);
-            Wartelist.setSpielend(true);
-            foreach (Playlist p in Playlists)
-            {
-                p.setSpielend(false);
-            }
-            Biblio.setSpielend(false);
-            IsInterpret = false;
-            IsAlbum = false;
-        }
-
-        private void Beenden_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
         private void BtnPause_Click(object sender, RoutedEventArgs e)
         {
             Player.Pause();
@@ -383,42 +311,20 @@ namespace EasyPlay
             BtnPause.Visibility = Visibility.Visible;
         }
 
-        private void BtnNeuePlaylist_Click(object sender, RoutedEventArgs e)
+        private void ListViewTitel_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            InputBox.Visibility = Visibility.Visible;
+            displayTitel item = new displayTitel();
+            item = (displayTitel)ListViewTitel.SelectedItem;
+            play(item.Pfad);
+            foreach (Lied l in Biblio.getAllLieder())
+            {
+                if (l.getPfad() == item.Pfad)
+                    l.setSpielt(true);
+            }
         }
+        #endregion Titel/Wiedergabe
 
-        private void WeiterButton_Click(object sender, RoutedEventArgs e)
-        {
-            Playlist = new Playlist(null, InputTextBox.Text);
-            InputBox.Visibility = Visibility.Collapsed;
-            BtnNeuePlaylist.Visibility = Visibility.Hidden;
-            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
-            BtnPlaylistSpeichern.Visibility = Visibility.Visible;
-            ListViewPlaylists.Visibility = Visibility.Hidden;
-            ListViewTitel.Visibility = Visibility.Visible;
-            BtnZuWarteliste.Visibility = Visibility.Hidden;
-            IsPlaylist = true;
-        }
-
-        private void AbbrechenButton_Click(object sender, RoutedEventArgs e)
-        {
-            InputBox.Visibility = Visibility.Collapsed;
-        }
-
-        private void BtnPlaylistSpeichern_Click(object sender, RoutedEventArgs e)
-        {
-            Playlists.Add(Playlist);
-            displayData(MyType.Playlists);
-            ListViewPlaylists.Visibility = Visibility.Visible;
-            ListViewTitel.Visibility = Visibility.Hidden;
-            BtnPlaylistSpeichern.Visibility = Visibility.Hidden;
-            BtnNeuePlaylist.Visibility = Visibility.Visible;
-            BtnPlaylistLoeschen.Visibility = Visibility.Visible;
-            BtnZuWarteliste.Visibility = Visibility.Hidden;
-            IsPlaylist = false;
-        }
-
+        #region DataDisplay
         private void displayData(MyType type)
         {
             switch (type)
@@ -500,21 +406,7 @@ namespace EasyPlay
             }
         }
 
-        private void ListViewTitel_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (IsPlaylist)
-            {
-                displayTitel item = new displayTitel();
-                item = (displayTitel)ListViewTitel.SelectedItem;
-                foreach (Lied l in Biblio.getAllLieder())
-                {
-                    if (item.Pfad == l.getPfad())
-                    {
-                        Playlist.addLied(l);
-                    }
-                }
-            }
-        }
+        
 
         internal class displayTitel
         {
@@ -542,6 +434,73 @@ namespace EasyPlay
         {
             public string Interpret { get; set; }
             public int AnzLieder { get; set; }
+        }
+        #endregion DataDisplay
+
+        #region Playlist
+        private void AbbrechenButton_Click(object sender, RoutedEventArgs e)
+        {
+            InputBox.Visibility = Visibility.Collapsed;
+        }
+
+        private void PlaylistsButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            ListViewTitel.Visibility = Visibility.Hidden;
+            ListViewPlaylists.Visibility = Visibility.Visible;
+            ListViewAlben.Visibility = Visibility.Hidden;
+            ListViewInterpreten.Visibility = Visibility.Hidden;
+            BtnNeuePlaylist.Visibility = Visibility.Visible;
+            BtnPlaylistLoeschen.Visibility = Visibility.Visible;
+            BtnZuWarteliste.Visibility = Visibility.Hidden;
+            displayData(MyType.Playlists);
+            IsInterpret = false;
+            IsAlbum = false;
+        }
+
+        private void BtnNeuePlaylist_Click(object sender, RoutedEventArgs e)
+        {
+            InputBox.Visibility = Visibility.Visible;
+        }
+
+        private void BtnPlaylistSpeichern_Click(object sender, RoutedEventArgs e)
+        {
+            Playlists.Add(Playlist);
+            displayData(MyType.Playlists);
+            ListViewPlaylists.Visibility = Visibility.Visible;
+            ListViewTitel.Visibility = Visibility.Hidden;
+            BtnPlaylistSpeichern.Visibility = Visibility.Hidden;
+            BtnNeuePlaylist.Visibility = Visibility.Visible;
+            BtnPlaylistLoeschen.Visibility = Visibility.Visible;
+            BtnZuWarteliste.Visibility = Visibility.Hidden;
+            IsPlaylist = false;
+        }
+        private void WeiterButton_Click(object sender, RoutedEventArgs e)
+        {
+            Playlist = new Playlist(null, InputTextBox.Text);
+            InputBox.Visibility = Visibility.Collapsed;
+            BtnNeuePlaylist.Visibility = Visibility.Hidden;
+            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
+            BtnPlaylistSpeichern.Visibility = Visibility.Visible;
+            ListViewPlaylists.Visibility = Visibility.Hidden;
+            ListViewTitel.Visibility = Visibility.Visible;
+            BtnZuWarteliste.Visibility = Visibility.Hidden;
+            IsPlaylist = true;
+        }
+
+        private void ListViewTitel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (IsPlaylist)
+            {
+                displayTitel item = new displayTitel();
+                item = (displayTitel)ListViewTitel.SelectedItem;
+                foreach (Lied l in Biblio.getAllLieder())
+                {
+                    if (item.Pfad == l.getPfad())
+                    {
+                        Playlist.addLied(l);
+                    }
+                }
+            }
         }
 
         private void ListViewPlaylists_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -571,9 +530,75 @@ namespace EasyPlay
             }
         }
 
+        
+        private void BtnPlaylistLoeschen_Click(object sender, RoutedEventArgs e)
+        {
+            displayPlaylist item = new displayPlaylist();
+            item = (displayPlaylist)ListViewPlaylists.SelectedItem;
+            foreach (Playlist p in Playlists)
+            {
+                if (item.Name == p.getName())
+                {
+                    Playlists.Remove(p);
+                    displayData(MyType.Playlists);
+                    break;
+                }
+            }
+        }
+        #endregion Playlist
+
+        #region Wartelist
+        private void WartelisteButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            ListViewTitel.Visibility = Visibility.Visible;
+            ListViewPlaylists.Visibility = Visibility.Hidden;
+            ListViewAlben.Visibility = Visibility.Hidden;
+            ListViewInterpreten.Visibility = Visibility.Hidden;
+            BtnNeuePlaylist.Visibility = Visibility.Hidden;
+            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
+            BtnZuWarteliste.Visibility = Visibility.Hidden;
+            BtnPlaylistWiederholen.Visibility = Visibility.Hidden;
+            displayData(MyType.Warteliste);
+            Wartelist.setSpielend(true);
+            foreach (Playlist p in Playlists)
+            {
+                p.setSpielend(false);
+            }
+            Biblio.setSpielend(false);
+            IsInterpret = false;
+            IsAlbum = false;
+        }
+
+        private void BtnZuWarteliste_Click(object sender, RoutedEventArgs e)
+        {
+            displayTitel item = new displayTitel();
+            item = (displayTitel)ListViewTitel.SelectedItem;
+            foreach (Lied l in Biblio.getAllLieder())
+            {
+                if (item.Pfad == l.getPfad())
+                {
+                    Wartelist.addLied(l);
+                    l.setWartend(true);
+                }
+            }
+        }
+
+        private void MenuWartelisteLeeren_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Lied l in Biblio.getAllLieder())
+                l.setWartend(false);
+        }
+        #endregion Wartelist
+
+        #region Save/Load
+        private void Beenden_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
         private void save()
         {
-            if (Biblio != null && Playlists != null && Wartelist != null) 
+            if (Biblio != null && Playlists != null && Wartelist != null)
             {
                 string saveFile = AppDomain.CurrentDomain.BaseDirectory + "easyplay.bin";
                 FileStream fs = new FileStream(saveFile, FileMode.Create);
@@ -596,7 +621,7 @@ namespace EasyPlay
                 Playlists = (List<Playlist>)formatter.Deserialize(fs);
                 Wartelist = (Warteliste)formatter.Deserialize(fs);
                 fs.Close();
-                foreach(Lied l in Biblio.getAllLieder())
+                foreach (Lied l in Biblio.getAllLieder())
                 {
                     l.setWiederholen(false);
                 }
@@ -606,52 +631,14 @@ namespace EasyPlay
                 }
             }
         }
-        private void BtnPlaylistLoeschen_Click(object sender, RoutedEventArgs e)
-        {
-            displayPlaylist item = new displayPlaylist();
-            item = (displayPlaylist)ListViewPlaylists.SelectedItem;
-            foreach (Playlist p in Playlists)
-            {
-                if (item.Name == p.getName())
-                {
-                    Playlists.Remove(p);
-                    displayData(MyType.Playlists);
-                    break;
-                }
-            }
-        }
-
-        private void BtnZuWarteliste_Click(object sender, RoutedEventArgs e)
-        {
-            displayTitel item = new displayTitel();
-            item = (displayTitel)ListViewTitel.SelectedItem;
-            foreach (Lied l in Biblio.getAllLieder())
-            {
-                if (item.Pfad == l.getPfad())
-                {
-                    Wartelist.addLied(l);
-                    l.setWartend(true);
-                }
-            }
-        }
 
         private void FrmMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             save();
         }
-
-        private void ListViewTitel_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            displayTitel item = new displayTitel();
-            item = (displayTitel)ListViewTitel.SelectedItem;
-            play(item.Pfad);
-            foreach (Lied l in Biblio.getAllLieder())
-            {
-                if (l.getPfad() == item.Pfad)
-                    l.setSpielt(true);
-            }
-        }
-
+        #endregion Save/Load
+        
+        #region Play/SongSlider
         private void play(string pfad)
         {
             Player.Open(new Uri(pfad));
@@ -709,7 +696,9 @@ namespace EasyPlay
             TimeSpan time = new TimeSpan(0, 0, value);
             Player.Position = time;
         }
+        #endregion Play/SongSlider
 
+        #region Volume
         private void VolumeSlider_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (Mouse.LeftButton == MouseButtonState.Pressed && mouseCaptured)
@@ -747,7 +736,9 @@ namespace EasyPlay
             BtnLaut.Visibility = Visibility.Hidden;
             BtnStumm.Visibility = Visibility.Visible;
         }
+        #endregion Volume
 
+        #region Wiederholung
         private void BtnLiedWiederholen_Click(object sender, RoutedEventArgs e)
         {
             foreach (Lied l in Biblio.getAllLieder())
@@ -791,7 +782,9 @@ namespace EasyPlay
                 }
             }
         }
+        #endregion Wiederholung
 
+        #region Add
         private void MenuAddLieder_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
@@ -818,11 +811,47 @@ namespace EasyPlay
                 Biblio.addOrdner(ofd.SelectedPath);
             displayData(MyType.Titel);
         }
-
-        private void MenuWartelisteLeeren_Click(object sender, RoutedEventArgs e)
+        #endregion Add
+        
+        #region Interpret/Album
+        private void AlbenButton_Clicked(object sender, RoutedEventArgs e)
         {
-            foreach (Lied l in Biblio.getAllLieder())
-                l.setWartend(false);
+            ListViewTitel.Visibility = Visibility.Hidden;
+            ListViewPlaylists.Visibility = Visibility.Hidden;
+            ListViewAlben.Visibility = Visibility.Visible;
+            ListViewInterpreten.Visibility = Visibility.Hidden;
+            BtnNeuePlaylist.Visibility = Visibility.Hidden;
+            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
+            BtnZuWarteliste.Visibility = Visibility.Hidden;
+            displayData(MyType.Album);
+            Wartelist.setSpielend(false);
+            foreach (Playlist p in Playlists)
+            {
+                p.setSpielend(false);
+            }
+            Biblio.setSpielend(true);
+            IsInterpret = false;
+            IsAlbum = true;
+        }
+
+        private void InterpretenButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            ListViewTitel.Visibility = Visibility.Hidden;
+            ListViewPlaylists.Visibility = Visibility.Hidden;
+            ListViewAlben.Visibility = Visibility.Hidden;
+            ListViewInterpreten.Visibility = Visibility.Visible;
+            BtnNeuePlaylist.Visibility = Visibility.Hidden;
+            BtnPlaylistLoeschen.Visibility = Visibility.Hidden;
+            BtnZuWarteliste.Visibility = Visibility.Hidden;
+            displayData(MyType.Interpret);
+            Wartelist.setSpielend(false);
+            foreach (Playlist p in Playlists)
+            {
+                p.setSpielend(false);
+            }
+            Biblio.setSpielend(true);
+            IsInterpret = true;
+            IsAlbum = false;
         }
 
         private void ListViewInterpreten_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -845,7 +874,7 @@ namespace EasyPlay
                 
             }
         }
-
+        
         private void ListViewAlben_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             displayAlbum item = new displayAlbum();
@@ -865,5 +894,6 @@ namespace EasyPlay
                     ListViewTitel.Items.Add(new displayTitel { Titel = l.getTitel(), Album = l.getAlbum(), Interpret = l.getInterpret(), Dauer = l.getLaenge(), Pfad = l.getPfad() });
             }
         }
+        #endregion Interpret/Album
     }
 }
