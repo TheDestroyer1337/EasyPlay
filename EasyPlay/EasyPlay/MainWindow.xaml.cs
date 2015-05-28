@@ -36,6 +36,7 @@ namespace EasyPlay
         private TimeSpan Pause;
         private Playlist Playlist;
         private bool IsPlaylist;
+        private bool IsInterpret;
         private bool mouseCaptured;
         private double Volume;
         
@@ -90,6 +91,7 @@ namespace EasyPlay
             Timer.Tick += new EventHandler(PlayTime_Tick);
             Wartelist = new Warteliste(null);
             Player = new MediaPlayer();
+            IsInterpret = false;
             this.load();
             this.displayData(MyType.Titel);
         }
@@ -101,21 +103,43 @@ namespace EasyPlay
                 Lied next = null;
                 foreach (Lied l in Biblio.getAllLieder())
                 {
-                    if (next != null && next != l)
+                    if (!IsInterpret)
                     {
-                        play(l.getPfad());
-                        return;
+                        if (next != null && next != l)
+                        {
+                            play(l.getPfad());
+                            return;
+                        }
+                        else if (l.getWiederholen())
+                        {
+                            play(l.getPfad());
+                            return;
+                        }
+                        if (l.getSpielt() && !l.getWiederholen() && next == null)
+                        {
+                            next = l;
+                            Timer.Stop();
+                            l.setSpielt(false);
+                        }
                     }
-                    else if (l.getWiederholen())
+                    else
                     {
-                        play(l.getPfad());
-                        return;
-                    }
-                    if (l.getSpielt() && !l.getWiederholen() && next == null)
-                    {
-                        next = l;
-                        Timer.Stop();
-                        l.setSpielt(false);
+                        if (next != null && next != l && l.getInterpret().Equals(next.getInterpret()))
+                        {
+                            play(l.getPfad());
+                            return;
+                        }
+                        else if (l.getWiederholen())
+                        {
+                            play(l.getPfad());
+                            return;
+                        }
+                        if (l.getSpielt() && !l.getWiederholen() && next == null)
+                        {
+                            next = l;
+                            Timer.Stop();
+                            l.setSpielt(false);
+                        }
                     }
                 }
                 next = null;
@@ -194,6 +218,7 @@ namespace EasyPlay
                 p.setSpielend(false);
             }
             Biblio.setSpielend(true);
+            IsInterpret = false;
         }
 
         private void PlaylistsButton_Clicked(object sender, RoutedEventArgs e)
@@ -206,6 +231,7 @@ namespace EasyPlay
             BtnPlaylistLoeschen.Visibility = Visibility.Visible;
             BtnZuWarteliste.Visibility = Visibility.Hidden;
             displayData(MyType.Playlists);
+            IsInterpret = false;
         }
 
         private void AlbenButton_Clicked(object sender, RoutedEventArgs e)
@@ -224,6 +250,7 @@ namespace EasyPlay
                 p.setSpielend(false);
             }
             Biblio.setSpielend(true);
+            IsInterpret = false;
         }
 
         private void InterpretenButton_Clicked(object sender, RoutedEventArgs e)
@@ -242,6 +269,7 @@ namespace EasyPlay
                 p.setSpielend(false);
             }
             Biblio.setSpielend(true);
+            IsInterpret = true;
         }
 
         private void WartelisteButton_Clicked(object sender, RoutedEventArgs e)
@@ -261,6 +289,7 @@ namespace EasyPlay
                 p.setSpielend(false);
             }
             Biblio.setSpielend(false);
+            IsInterpret = false;
         }
 
         private void Beenden_Click(object sender, RoutedEventArgs e)
