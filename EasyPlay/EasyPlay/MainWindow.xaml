@@ -52,6 +52,7 @@
         </Style>
     </Window.Resources>
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="291*"/>
             <RowDefinition/>
@@ -120,7 +121,6 @@
             </Button.Background>
         </Button>
         <Button x:Name="BtnPause" Style="{StaticResource StyleButtonNormal}" VerticalAlignment="Bottom" Margin="10,0,0,14" Height="24" BorderThickness="0" Click="BtnPause_Click" Foreground="{x:Null}" BorderBrush="{x:Null}" Grid.RowSpan="4" HorizontalAlignment="Left" Width="27" >
-
             <Button.Background>
                 <ImageBrush Stretch="Uniform" ImageSource="Resources/pause.png" />
             </Button.Background>
