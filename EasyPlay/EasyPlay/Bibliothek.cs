@@ -44,17 +44,23 @@ namespace EasyPlay
 
         private void subDirectories(DirectoryInfo directory)
         {
-            foreach (FileInfo f in directory.GetFiles())
+            try
             {
-                if (f.Extension.Equals(".mp3"))
+                foreach (FileInfo f in directory.GetFiles())
                 {
-                    addLied(f.FullName);
+                    if (f.Extension.Equals(".mp3"))
+                    {
+                        addLied(f.FullName);
+                    }
+                }
+
+                foreach (DirectoryInfo f in directory.GetDirectories())
+                {
+                    subDirectories(f);
                 }
             }
-
-            foreach (DirectoryInfo f in directory.GetDirectories())
-            {
-                subDirectories(f);
+            catch(Exception e) {
+                return;
             }
         }
 

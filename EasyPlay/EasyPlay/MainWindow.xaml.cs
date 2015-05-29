@@ -943,13 +943,18 @@ namespace EasyPlay
         #endregion Interpret/Album
 
         #region Bestenliste
+        private void MenuBestenlisteGenereieren_Click(object sender, RoutedEventArgs e)
+        {
+            Playlists.Add(CreateBestenliste());
+        }
+
         private Playlist CreateBestenliste()
         {
             Playlist Bestenliste = new Playlist(null, "Bestenliste");
             Lied[] lieder = Biblio.getAllLieder().ToArray();
-            for (int count = 0; count > (lieder.Length - 1); count++ )
+            for (int count = 0; count < (lieder.Length - 1); count++ )
             {
-                for(int count2 = 0; count > (lieder.Length - 1); count2++)
+                for(int count2 = 0; count2 < (lieder.Length - 1); count2++)
                 {
                     if (lieder[count].getAnzWiedergaben() < lieder[count2].getAnzWiedergaben())
                     {
@@ -978,5 +983,7 @@ namespace EasyPlay
             hilfe.Show();
         }
         #endregion Hilfe
+
+        
     }
 }
